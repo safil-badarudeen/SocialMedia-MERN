@@ -1,0 +1,57 @@
+.MainNavbar{
+   display:flex;
+   width:90%;
+   margin:auto;
+   justify-content: space-between;
+   background-color: whitesmoke;
+
+}
+
+.SearchInputContainer{
+    margin-top: 10px;
+    display:flex;
+    align-items:center;
+    flex:4;
+    margin-top: 10px;
+    background-color: rgb(155, 150, 150);
+    
+    padding:5px;
+    border-radius: 10px;
+}
+
+.IconsContainer{
+    display:flex;
+    align-items:center;
+    flex:0.22;
+}
+
+.LogoContainer{
+    flex:0.2;
+}
+
+.SearchIcon{
+    height: 30px;
+    width:30px;
+}
+
+.SearchInput{
+    width:30pc;
+    height:19px;
+    border:none;
+    padding:4px;
+    border-radius:10px;
+}
+
+
+
+.Icons {
+    width:20px;
+    height:20px;
+}
+
+.ProfileImage{
+    height: 40px;
+    width:40px;
+    border-radius: 50%;
+    margin-left:20px;
+}
