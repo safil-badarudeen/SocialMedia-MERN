@@ -5,7 +5,7 @@ import './mainPost.css'
 
 function MainPost() {
   return (
-    <div>mainPost</div>
+    <div className='MainPostContainer'>mainPost</div>
   )
 }
 

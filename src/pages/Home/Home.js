@@ -12,9 +12,9 @@ const Home = () => {
     <div className='Home'>
       <Navbar/>
       <div className='ComponentContainer'>
-        <div><LeftBar/></div>
-        <div><MainPost/></div>
-        <div className='Rightbar'><RightBar/></div>
+        <LeftBar/>
+        <MainPost/>
+        <RightBar/>
       </div>
      
     </div>
