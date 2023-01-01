@@ -4,7 +4,7 @@
 
 .RightContainer{
     width:20pc;
-    height: 40vh;
+    height: 30vh;
     background-color: white;
     margin-top: 20px;
     border-radius:15px;
@@ -13,7 +13,7 @@
 
 .RightContainer2{
     width:20pc;
-    height: 40vh;
+    height: 50vh;
     background-color: white;
     margin-top: 20px;
     border-radius:15px;
@@ -22,8 +22,8 @@
 
 
 .AdsImage{
-  width:130px;
-  height:100px;
+  width:100px;
+  height:80px;
 }
 
 .AdsContainer{
@@ -31,4 +31,18 @@
     align-items:center;
     margin-left: 10px;
     padding:10px
+}
+
+.ProfileImage{
+    height:40px;
+    width:40px;
+    border-radius:50%;
+    margin-left: 20px;
+}
+
+.AddFrndImage{
+    width:30px;
+    height:30px;
+    border-radius: 50%;
+
 }
