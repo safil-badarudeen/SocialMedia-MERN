@@ -1,0 +1,24 @@
+.ContentUploadContainer{
+    width:90%;
+    background-color: white;
+    height: 60vh;
+    border-radius: 20px;
+    margin:auto;
+    margin-top: 25px;
+}
+
+.ContentWritingPart{
+    width:29pc;
+    margin-top: 20px;
+    margin-left:6px;
+    height:6pc;
+    border:none;
+
+}
+
+.ProfileImageContentTab{
+    width:40px;
+    border-radius: 50%;
+    height:40px;
+    margin-top:45px;
+}

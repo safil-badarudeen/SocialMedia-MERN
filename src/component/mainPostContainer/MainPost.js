@@ -1,11 +1,14 @@
 import React from 'react'
 import './mainPost.css'
-
+import ContentPost from '../contentPostContainer/ContentPost'
 
 
 function MainPost() {
   return (
-    <div className='MainPostContainer'>mainPost</div>
+    <div className='MainPostContainer'>
+       <ContentPost/>
+
+    </div>
   )
 }
 

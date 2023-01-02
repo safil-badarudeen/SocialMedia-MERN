@@ -63,6 +63,11 @@ function RightBar() {
         </div>
        
       </div>
+      
+      {/* container at right bottom
+      -------------------------------------------------------- */}
+
+        
       <div className="RightContainer2">
         <h3 style={{textAlign:'start', marginLeft:'20px'}}>Suggested for you</h3>
         <div style={{ marginTop:'10px '}}>
