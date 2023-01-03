@@ -20,8 +20,8 @@ const Navbar = () => {
 
         </div>
         <div className="IconsContainer">
-             <img src={`${Notification}`} className="Icons" alt="" ></img>
-             <img src={`${Message}`} className="Icons"  alt=''></img>
+             <img src={`${Notification}`} className="IconsNav" alt="" ></img>
+             <img src={`${Message}`} className="IconsNav"  alt=''></img>
               <div style={{display:'flex' , alignItems:'center'}} >
                   <img src={`${ProfilePic}`} className="ProfileImage"  alt=""></img>
                    <p style={{marginLeft:'10px'}}>Safil</p>
