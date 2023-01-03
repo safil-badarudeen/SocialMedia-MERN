@@ -9,6 +9,9 @@ function MainPost() {
     <div className='MainPostContainer'>
        <ContentPost/>
        <Post/>
+       <Post/>
+       <Post/>
+       <Post/>
 
     </div>
   )
