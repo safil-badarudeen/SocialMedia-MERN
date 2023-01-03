@@ -1,5 +1,5 @@
 .ContentUploadContainer{
-    width:90%;
+    width:92%;
     background-color: white;
     height: 26vh;
     border-radius: 20px;
@@ -26,6 +26,6 @@
 .Icons{
    width:20px;
    height:30px;
-   margin-left:50px;
+   margin-left:20px;
    margin-top:20px;
 }

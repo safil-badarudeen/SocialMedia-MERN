@@ -1,5 +1,6 @@
 .Leftbar{
     flex:1;
+    margin-left:50px;
 }
 
 .NotificationContainer{
