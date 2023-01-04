@@ -11,7 +11,8 @@ function Post() {
   const [Count, setCount] = useState(10);
   const [Comments, setComments] = useState([]);
   const [CommentWriting, setCommentWriting] = useState("");
-  const [CommentCount,setCommentCount]=useState(3)
+  const [CommentCount, setCommentCount] = useState(3);
+  const [ShowComment, setShowComment] = useState(false);
 
   const handleLike = () => {
     if (Like === heartIcon) {
@@ -30,21 +31,25 @@ function Post() {
       title: `${CommentWriting}`,
     };
     setComments(Comments.concat(comment));
-    setCommentCount(CommentCount +1)
+    setCommentCount(CommentCount + 1);
   };
 
   const handleComment = () => {
     addComment();
-   
-
   };
 
-  console.log(Comments);
+  const handleShowComment = () => {
+    if (ShowComment === true) {
+      setShowComment(false);
+    } else {
+      setShowComment(true);
+    }
+  };
 
   return (
     <div className="PostContainer">
       <div className="SubPostContainer">
-        <div>
+        
           <div style={{ display: "flex", marginLeft: "30px" }}>
             <img
               src={`${profilePicture}`}
@@ -108,7 +113,12 @@ function Post() {
                   cursor: "pointer",
                 }}
               >
-                <img src={`${commentIcon}`} className="LikeAndComment" alt="" />
+                <img
+                  src={`${commentIcon}`}
+                  onClick={handleShowComment}
+                  className="LikeAndComment"
+                  alt=""
+                />
                 <p style={{ marginLeft: "10px" }}>{CommentCount} comments</p>
               </div>
             </div>
@@ -124,25 +134,28 @@ function Post() {
               <p style={{ marginLeft: "10px" }}>share</p>
             </div>
           </div>
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <img
-              src={`${profilePicture}`}
-              className="CommentProfileImage"
-              alt=""
-            ></img>
-            {/* <p style={{marginLeft:10}}>Safil</p> */}
-            <input
-              className="CommentInput"
-              placeholder="Write your thoughts.."
-              onChange={(e) => setCommentWriting(e.target.value)}
-              type="text"
-            />
-            <button className="AddCommentButton" onClick={handleComment}>
-              Comment
-            </button>
-          </div>
 
-          {Comments.map((items) => {
+          {ShowComment === true ? (
+            <div style={{display:'grid'}}>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <img
+                src={`${profilePicture}`}
+                className="CommentProfileImage"
+                alt=""
+              ></img>
+              {/* <p style={{marginLeft:10}}>Safil</p> */}
+              <input
+                className="CommentInput"
+                placeholder="Write your thoughts.."
+                onChange={(e) => setCommentWriting(e.target.value)}
+                type="text"
+              />
+              <button className="AddCommentButton" onClick={handleComment}>
+                Comment
+              </button>
+            </div>
+            
+            {Comments.map((items) => {
             return (
               <div style={{ display: "flex" }}>
                 <img
@@ -150,13 +163,20 @@ function Post() {
                   className="CommentProfileImage"
                   alt=""
                 ></img>
-                <p style={{ marginLeft: 10,fontWeight: "bold", }}>{items.username}</p>
+                <p style={{ marginLeft: 10, fontWeight: "bold" }}>
+                  {items.username}
+                </p>
                 <p style={{ marginLeft: 10 }}>{items.title}</p>
               </div>
             );
           })}
+            </div>
+          ) : (
+            <div></div>
+          )}
+
+        
         </div>
-      </div>
     </div>
   );
 }
