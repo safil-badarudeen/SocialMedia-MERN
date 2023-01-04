@@ -27,6 +27,31 @@
     margin-left: 10px;
 }
 
+.YourFriendscontainer{
+    width:18pc;
+    height:55vh;
+    background-color: white;
+    border-radius:20px;
+    margin-top: 20px;
+    border-top:20px;
+    overflow:hidden;
+}
+
+.FriendProfilePic{
+    height:70px;
+    width:70px;
+    margin-left:20px;
+}
+
+.FriendsName{
+    margin-top:-2px;
+    margin-left:15px;
+}
+
+
+
+
+
 .FollowingUserImage{
     width:35px;
     height:35px;

@@ -1,12 +1,15 @@
 import React from "react";
 import Image from "../images/friendprofile.jpg";
 import ProfilePic from "../images/profilePic.jpg";
+import FriendProfile from "../images/friendprofile.jpg";
 
 import "./profileleftbar.css";
 
 function ProfileLeftbar() {
   return (
     <div className="ProfileLeftbar">
+      {/* Left User Profile tab */}
+      {/* --------------------------------- */}
       <div className="ProfileLeftContainer">
         <img src={`${Image}`} className="CoverImage" alt></img>
         <div
@@ -78,7 +81,7 @@ function ProfileLeftbar() {
         <div style={{}}>
           <p
             style={{
-              marginLeft: 15,
+              alignText: "left",
               marginTop: 0,
               fontSize: 17,
               fontWeight: "bold",
@@ -87,7 +90,7 @@ function ProfileLeftbar() {
             Bio
           </p>
           <p
-            style={{ marginTop:-18, fontSize: 14, margin: 20, color: "black" }}
+            style={{ marginTop:-20, fontSize: 14, margin: 20, color: "black" }}
           >
             software developer who never lacks hunger for growth
           </p>
@@ -98,11 +101,62 @@ function ProfileLeftbar() {
               backgroundColor: "green",
               color: "white",
               fontSize: 15,
-              width:'100%'
+              width: "100%",
             }}
           >
             Edit Bio
           </button>
+        </div>
+      </div>
+
+      {/* Left profile -> your friends */}
+      {/* -------------------------------------------- */}
+
+      <div className="YourFriendscontainer">
+        <h4 style={{ marginTop: "2px" }}>Your Friends</h4>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <p style={{ marginLeft: 18, marginTop: -12 }}>Friends</p>
+          <p style={{ marginRight: 18, marginTop: -12, color: "#aaa" }}>
+            See all
+          </p>
+        </div>
+        <div style={{ display: "flex", flexWrap: "wrap" }}>
+          <div>
+            <img src={`${FriendProfile}`} className="FriendProfilePic" alt="" />
+            <p className="FriendsName">name</p>
+          </div>
+          <div>
+            <img src={`${FriendProfile}`} className="FriendProfilePic" alt="" />
+            <p className="FriendsName">name</p>
+          </div>
+          <div>
+            <img src={`${FriendProfile}`} className="FriendProfilePic" alt="" />
+            <p className="FriendsName">name</p>
+          </div>
+          <div>
+            <img src={`${FriendProfile}`} className="FriendProfilePic" alt="" />
+            <p className="FriendsName">name</p>
+          </div>
+          <div>
+            <img src={`${FriendProfile}`} className="FriendProfilePic" alt="" />
+            <p className="FriendsName">name</p>
+          </div>
+          <div>
+            <img src={`${FriendProfile}`} className="FriendProfilePic" alt="" />
+            <p className="FriendsName">name</p>
+          </div>
+          <div>
+            <img src={`${FriendProfile}`} className="FriendProfilePic" alt="" />
+            <p className="FriendsName">name</p>
+          </div>
+          <div>
+            <img src={`${FriendProfile}`} className="FriendProfilePic" alt="" />
+            <p className="FriendsName">name</p>
+          </div>
+          <div>
+            <img src={`${FriendProfile}`} className="FriendProfilePic" alt="" />
+            <p className="FriendsName">name</p>
+          </div>
         </div>
       </div>
     </div>
