@@ -7,20 +7,39 @@ import shareIcon from "../images/shareIcon.png";
 import "./post.css";
 
 function Post() {
+  const [Like, setLike] = useState(heartIcon);
+  const [Count, setCount] = useState(10);
+  const [Comments, setComments] = useState([]);
+  const [CommentWriting, setCommentWriting] = useState("");
+  const [CommentCount,setCommentCount]=useState(3)
 
-    const [Like,setLike]=useState(heartIcon)
-    const [count,setCount]= useState(10)
-
-    const handleLike=()=>{
-        console.log('hwllo')
-        if(Like === heartIcon){
-            setLike(anotherHeart)
-            setCount(count +1)
-        }else{
-            setLike(heartIcon)
-            setCount(count -1)
-        }
+  const handleLike = () => {
+    if (Like === heartIcon) {
+      setLike(anotherHeart);
+      setCount(Count + 1);
+    } else {
+      setLike(heartIcon);
+      setCount(Count - 1);
     }
+  };
+
+  const addComment = () => {
+    const comment = {
+      id: "154144554da5554",
+      username: "Safil",
+      title: `${CommentWriting}`,
+    };
+    setComments(Comments.concat(comment));
+    setCommentCount(CommentCount +1)
+  };
+
+  const handleComment = () => {
+    addComment();
+   
+
+  };
+
+  console.log(Comments);
 
   return (
     <div className="PostContainer">
@@ -74,8 +93,13 @@ function Post() {
               style={{ display: "flex", marginLeft: "40px", cursor: "pointer" }}
             >
               <div style={{ display: "flex", alignItems: "center" }}>
-                <img src={`${Like}`} onClick={handleLike} className="LikeAndComment" alt="" />
-                <p style={{ marginLeft: "10px" }}> {count} likes</p>
+                <img
+                  src={`${Like}`}
+                  onClick={handleLike}
+                  className="LikeAndComment"
+                  alt=""
+                />
+                <p style={{ marginLeft: "10px" }}> {Count} likes</p>
               </div>
               <div
                 style={{
@@ -85,7 +109,7 @@ function Post() {
                 }}
               >
                 <img src={`${commentIcon}`} className="LikeAndComment" alt="" />
-                <p style={{ marginLeft: "10px" }}>100K comments</p>
+                <p style={{ marginLeft: "10px" }}>{CommentCount} comments</p>
               </div>
             </div>
             <div
@@ -100,12 +124,37 @@ function Post() {
               <p style={{ marginLeft: "10px" }}>share</p>
             </div>
           </div>
-           <div style={{ display:'flex',alignItems:'center'}}>
-           <img src={`${profilePicture}`} className="CommentProfileImage" alt="" ></img>
-           {/* <p style={{marginLeft:10}}>Safil</p> */}
-           <input className='CommentInput' placeholder='Write your thoughts..' type='text' />
-           <button className="AddCommentButton">Comment</button>
-           </div>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <img
+              src={`${profilePicture}`}
+              className="CommentProfileImage"
+              alt=""
+            ></img>
+            {/* <p style={{marginLeft:10}}>Safil</p> */}
+            <input
+              className="CommentInput"
+              placeholder="Write your thoughts.."
+              onChange={(e) => setCommentWriting(e.target.value)}
+              type="text"
+            />
+            <button className="AddCommentButton" onClick={handleComment}>
+              Comment
+            </button>
+          </div>
+
+          {Comments.map((items) => {
+            return (
+              <div style={{ display: "flex" }}>
+                <img
+                  src={`${profilePicture}`}
+                  className="CommentProfileImage"
+                  alt=""
+                ></img>
+                <p style={{ marginLeft: 10,fontWeight: "bold", }}>{items.username}</p>
+                <p style={{ marginLeft: 10 }}>{items.title}</p>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
