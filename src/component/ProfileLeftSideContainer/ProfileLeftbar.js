@@ -81,16 +81,18 @@ function ProfileLeftbar() {
         <div style={{}}>
           <p
             style={{
-              alignText: "left",
+              textAlign:"start",
               marginTop: 0,
               fontSize: 17,
               fontWeight: "bold",
+              marginBottom:0,
+              marginLeft:10
             }}
           >
             Bio
           </p>
           <p
-            style={{ marginTop:-20, fontSize: 14, margin: 20, color: "black" }}
+            style={{ marginTop:10, fontSize: 14, color: "black" }}
           >
             software developer who never lacks hunger for growth
           </p>
