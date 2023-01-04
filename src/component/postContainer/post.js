@@ -157,6 +157,7 @@ function Post() {
             
             {Comments.map((items) => {
             return (
+                <div>
               <div style={{ display: "flex" }}>
                 <img
                   src={`${profilePicture}`}
@@ -166,7 +167,13 @@ function Post() {
                 <p style={{ marginLeft: 10, fontWeight: "bold" }}>
                   {items.username}
                 </p>
-                <p style={{ marginLeft: 10 }}>{items.title}</p>
+                
+                
+              </div>
+              <div style={{ marginLeft:100,marginTop:-30}}>
+                <p style={{ marginLeft: 10 , textAlign:'left',fontSize:15,}}>{items.title}</p>
+                <p style={{ marginLeft: 10 , textAlign:'left',fontSize:11,color:'#aaa',marginTop:-11}}>Reply</p>
+                </div>
               </div>
             );
           })}
