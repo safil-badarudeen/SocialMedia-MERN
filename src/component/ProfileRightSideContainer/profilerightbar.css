@@ -1,0 +1,32 @@
+.ProfileRightBar  {
+    flex:1;
+    /* margin-right:50px; */
+}
+
+.HabitiansRequestContainer{
+    width:18pc;
+    height:40vh;
+    background-color: white;
+    border-radius:20px;
+    margin-top: 20px;
+    border-top:20px;
+    overflow-y:scroll    
+    
+}
+
+.RequestTapProfilePic{
+    height:70px;
+    width:70px;
+    margin-left:20px;
+    border-radius:11px;
+
+}
+
+.AcceptDenyButton{
+    background-color: black;
+    color:white;
+    padding: 3px 20px ;
+    margin-top:5px;
+    border-radius:15px;
+}
+

@@ -1,7 +1,7 @@
 import React from 'react'
 import Navbar from '../../component/Navbar/Navbar'
 import ProfileLeftbar from '../../component/ProfileLeftSideContainer/ProfileLeftbar'
-import ProfileRightBar from '../../component/rightSideContainer/ProfileRightBar'
+import ProfileRightBar from '../../component/ProfileRightSideContainer/ProfileRightBar'
 import MainPost from '../../component/mainPostContainer/MainPost'
 
 import './profile.css'
