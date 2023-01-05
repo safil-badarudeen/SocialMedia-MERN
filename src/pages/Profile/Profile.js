@@ -2,7 +2,7 @@ import React from 'react'
 import Navbar from '../../component/Navbar/Navbar'
 import ProfileLeftbar from '../../component/ProfileLeftSideContainer/ProfileLeftbar'
 import ProfileRightBar from '../../component/ProfileRightSideContainer/ProfileRightBar'
-import MainPost from '../../component/mainPostContainer/MainPost'
+import ProfileMainPost from '../../component/ProfileMainPostContainer/ProfileMainPost'
 
 import './profile.css'
 
@@ -12,7 +12,7 @@ function Profile() {
      <Navbar/>
      <div  className='ComponentContainer'>
     <ProfileLeftbar/>
-    <MainPost/>
+    <ProfileMainPost/>
     <ProfileRightBar/>
     </div>
 

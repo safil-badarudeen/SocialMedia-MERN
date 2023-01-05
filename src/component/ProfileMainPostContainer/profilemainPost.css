@@ -1,0 +1,16 @@
+.MainPostContainer{
+    flex:3;
+  
+}
+
+
+
+.coverImage{
+    width:92%;
+    background-color: white;
+    height: 26vh;
+    border-radius: 20px;
+    margin:auto;
+    margin-top: 25px;
+
+}
