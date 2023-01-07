@@ -1,103 +1,98 @@
-require('dotenv').config()
-const User = require('../models/User')
-const { body, validationResult } = require('express-validator');
-const  bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const {createTokenUser} = require('../utils/tokenUser')
+require("dotenv").config();
+const User = require("../models/User");
+const { body, validationResult } = require("express-validator");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const { createTokenUser } = require("../utils/tokenUser");
 
 
-const register= async(req, res) => {
-        
-        body("email").isEmail(),
-        body("username").isLength({ min: 3 }),
-        body("password").isLength({ min: 4 })
-        body("mobilenumber").isLength({min:10})
-        
+const register = async (req, res) => {
+  body("email").isEmail(),
+    body("username").isLength({ min: 3 }),
+    body("password").isLength({ min: 4 });
+  body("mobilenumber").isLength({ min: 10 });
 
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return res
-          .status(400)
-          .json({ errorMsg: "Some error, check email,username or password " });
-      }
-  
-      const { email, username, password, mobilenumber, profile } = req.body;
-      
-  
-      let user = await User.findOne({ email, username });
-      if (user) {
-        res.status(200).json({ msg: "user already exists" });
-      }
-      if (user) {
-        res.status(200).json({ msg: "username already in use" });
-      }
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res
+      .status(400)
+      .json({ errorMsg: "Some error, check email,username or password " });
+  }
 
-      const  salt = bcrypt.genSaltSync(10);
-      const  hashPassword = bcrypt.hashSync(password, salt);
-  
-      user = await User.create({
-        username,
-        email,
-        password : hashPassword,
-        mobilenumber,
-        profile,
-      });
+  const { email, username, password, mobilenumber, profile } = req.body;
 
-        const accessToken = jwt.sign({ 
-            id: user._id,
-         username:user.username }, process.env.JWT_SEC);
-  
-      await user.save();
-     res.status(200).json({ data: user , accessToken });
-     
-    }
+  let user = await User.findOne({ email, username });
+  if (user) {
+    res.status(200).json({ msg: "user already exists" });
+  }
+  if (user) {
+    res.status(200).json({ msg: "username already in use" });
+  }
 
-const login = async(req,res)=>{
-    body("email").isEmail(),
-    body("password").isLength({ min: 4 })
+  const salt = bcrypt.genSaltSync(10);
+  const hashPassword = bcrypt.hashSync(password, salt);
 
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res
-        .status(400)
-        .json({ errorMsg: "Some error, check email,username or password " });
-    }
+  user = await User.create({
+    username,
+    email,
+    password: hashPassword,
+    mobilenumber,
+    profile,
+  });
 
-    const { email , password } = req.body;
+  const accessToken = jwt.sign(
+    {
+      id: user._id,
+      username: user.username,
+    },
+    process.env.JWT_SEC
+  );
 
-    const user = await User.findOne({email})
-    if(!user){
-        return res.status(400).json({msg:"user not found"})
-    }
+  await user.save();
+  res.status(200).json({ data: user, accessToken });
+};
 
-    const comparePassword = await bcrypt.compare(password,user.password)
+////////////////////////////////////////////////
 
-    if(!comparePassword){
-      return res.status(400).json("password Error")
-    }
+const login = async (req, res) => {
+  body("email").isEmail(), body("password").isLength({ min: 4 });
 
-    //tokenUser from utils to remove password and complicated signs from response 
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res
+      .status(400)
+      .json({ errorMsg: "Some error, check email,username or password " });
+  }
 
-    const tokenUser=createTokenUser(user)
+  const { email, password } = req.body;
 
-    const accessToken = jwt.sign({ 
-        id: user._id,
-     username:user.username }, process.env.JWT_SEC);
+  const user = await User.findOne({ email });
+  if (!user) {
+    return res.status(400).json({ msg: "user not found" });
+  }
 
-    
+  const comparePassword = await bcrypt.compare(password, user.password);
 
-     res.status(200).json({data: tokenUser, accessToken})
+  if (!comparePassword) {
+    return res.status(400).json("password Error");
+  }
 
+  //tokenUser from utils to remove password and complicated signs from response
 
-}
+  const tokenUser = createTokenUser(user);
 
+  const accessToken = jwt.sign(
+    {
+      id: user._id,
+      username: user.username,
+    },
+    process.env.JWT_SEC,
+  );
 
-module.exports = {register,login}
+  res.status(200).json({ data: tokenUser, accessToken });
+};
 
-
+////////////////////////////////////
 
 
-  
-  
-
-
+module.exports = { register, login };

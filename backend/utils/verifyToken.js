@@ -8,7 +8,7 @@ const verifyToken = (req, res, next) => {
   if(token){
     
     jwt.verify(token, process.env.JWT_SEC,(err,user)=>{
-        console.log(user)
+        //console.log(user)
         if(err){
             return res.status(400).json("some error occured");
            
