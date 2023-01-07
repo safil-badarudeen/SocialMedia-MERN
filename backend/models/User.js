@@ -14,12 +14,12 @@ const Userschema = new mongoose.Schema({
         required:true,
     },
     
-    friends:{
+    following:{
         type:Array,
         
     },
 
-    pending:{
+    followers:{
         type:Array,
     },
     

@@ -1,5 +1,7 @@
 const Post = require("../models/Post");
-const mongoose = require("mongoose");
+const User = require("../models/User");
+
+// const { findById } = require("../models/User");
 
 const createPost = async (req, res) => {
   let { title, image, video } = req.body;
@@ -15,7 +17,9 @@ const createPost = async (req, res) => {
   res.status(200).json({ newPost, totalPost: newPost.length });
 };
 
-//////////////////////////
+//////////////
+//getyouruploaded post
+//////////
 
 const getMyPost = async (req, res) => {
   const { id } = req.user;
@@ -25,6 +29,7 @@ const getMyPost = async (req, res) => {
   if (!mypost) {
     return res.status(400).json({ msg: "You dont have any post" });
   }
+  
   res.status(200).json({ yourPost: mypost, totalPost: mypost.length });
 };
 
@@ -45,4 +50,32 @@ const updatePost = async (req, res) => {
   res.status(200).json(updatePost)
 };
 
-module.exports = { createPost, getMyPost, updatePost };
+
+////////////////
+//following
+///////////////
+
+const following = async(req,res)=>{
+
+    const {id} = req.params;
+    
+    if(id !== req.body.user){
+        const user = await User.findById(id);
+        const otherUser= await User.findById(req.body.user);
+
+        if(!user.followers.includes(req.body.user)){
+           await user.updateOne({$push:{followers:req.body.user}})
+           await otherUser.updateOne({$push:{following:id}})
+           return res.status(200).json('you started following')
+        }else{
+            return res.status(400).json('you already follow the user')
+        }
+
+
+    }else{
+        res.status(400).json("you cannot follow yourself")
+    }
+
+}
+
+module.exports = { createPost, getMyPost, updatePost, following };
