@@ -3,6 +3,7 @@ const User = require('../models/User')
 const { body, validationResult } = require('express-validator');
 const  bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const {createTokenUser} = require('../utils/tokenUser')
 
 
 const register= async(req, res) => {
@@ -75,11 +76,17 @@ const login = async(req,res)=>{
       return res.status(400).json("password Error")
     }
 
+    //tokenUser from utils to remove password and complicated signs from response 
+
+    const tokenUser=createTokenUser(user)
+
     const accessToken = jwt.sign({ 
         id: user._id,
      username:user.username }, process.env.JWT_SEC);
 
-     res.status(200).json({data: user , accessToken})
+    
+
+     res.status(200).json({data: tokenUser, accessToken})
 
 
 }
