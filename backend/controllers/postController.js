@@ -29,7 +29,7 @@ const getMyPost = async (req, res) => {
   if (!mypost) {
     return res.status(400).json({ msg: "You dont have any post" });
   }
-  
+
   res.status(200).json({ yourPost: mypost, totalPost: mypost.length });
 };
 
@@ -46,36 +46,50 @@ const updatePost = async (req, res) => {
   }
 
   post = await Post.findByIdAndUpdate(id, { $set: req.body });
-  let updatePost= await post.save()
-  res.status(200).json(updatePost)
+  let updatePost = await post.save();
+  res.status(200).json(updatePost);
 };
-
 
 ////////////////
 //following
 ///////////////
 
-const following = async(req,res)=>{
+const following = async (req, res) => {
+  const { id } = req.params;
 
-    const {id} = req.params;
-    
-    if(id !== req.body.user){
-        const user = await User.findById(id);
-        const otherUser= await User.findById(req.body.user);
+  if (id !== req.body.user) {
+    const user = await User.findById(id);
+    const otherUser = await User.findById(req.body.user);
 
-        if(!user.followers.includes(req.body.user)){
-           await user.updateOne({$push:{followers:req.body.user}})
-           await otherUser.updateOne({$push:{following:id}})
-           return res.status(200).json('you started following')
-        }else{
-            return res.status(400).json('you already follow the user')
-        }
-
-
-    }else{
-        res.status(400).json("you cannot follow yourself")
+    if (!user.followers.includes(req.body.user)) {
+      await user.updateOne({ $push: { followers: req.body.user } });
+      await otherUser.updateOne({ $push: { following: id } });
+      return res.status(200).json("you started following");
+    } else {
+      return res.status(400).json("you already follow the user");
     }
+  } else {
+    res.status(400).json("you cannot follow yourself");
+  }
+};
 
-}
+//fetch Post from following
+///////////////////////////
 
-module.exports = { createPost, getMyPost, updatePost, following };
+const followingPost = async (req, res) => {
+  const user = await User.findById(req.params.id);
+  const posts = await Promise.all(
+    user.following.map((item) => {
+      return Post.find({ user: item });
+    })
+  );
+  res.status(200).json(posts);
+};
+
+module.exports = {
+  createPost,
+  getMyPost,
+  updatePost,
+  following,
+  followingPost,
+};

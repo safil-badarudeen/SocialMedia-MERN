@@ -1,16 +1,15 @@
 require("dotenv").config();
 const User = require("../models/User");
-const { body, validationResult } = require("express-validator");
+const { body, check , validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { createTokenUser } = require("../utils/tokenUser");
 
-
 const register = async (req, res) => {
-  body("email").isEmail(),
-    body("username").isLength({ min: 3 }),
-    body("password").isLength({ min: 4 });
-  body("mobilenumber").isLength({ min: 10 });
+  await check("email").isEmail().run(req);
+  await check("username").isLength({ min: 3 }).run(req);
+  await check("password").isLength({ min: 4 }).run(req);
+  await check("mobilenumber").isLength({ min: 10 }).run(req);
 
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -49,7 +48,10 @@ const register = async (req, res) => {
   );
 
   await user.save();
-  res.status(200).json({ data: user, accessToken });
+
+  const tokenUser = createTokenUser(user);
+
+  res.status(200).json({ data: tokenUser, accessToken });
 };
 
 ////////////////////////////////////////////////
@@ -86,13 +88,12 @@ const login = async (req, res) => {
       id: user._id,
       username: user.username,
     },
-    process.env.JWT_SEC,
+    process.env.JWT_SEC
   );
 
   res.status(200).json({ data: tokenUser, accessToken });
 };
 
 ////////////////////////////////////
-
 
 module.exports = { register, login };
