@@ -11,12 +11,14 @@ const port=5000;
 
 const authRouter = require('./routes/authRoutes');
 const postRouter = require('./routes/postRoutes')
+const userRouter = require('./routes/userRoutes')
 
 
 app.use(express.json())
 
-app.use('/api/user',authRouter)
+app.use('/api/auth',authRouter)
 app.use('/api/post',postRouter)
+app.use('/api/user',userRouter)
  
 
 
