@@ -31,5 +31,16 @@ const updatePassword = async (req,res) =>{
   }
 }
 
+// delete user account
+const deleteAccount = async(req,res)=>{
+    user = req.params.id 
+    currentUser= req.user.id
+  if(user === currentUser){
+    const account = await User.findByIdAndDelete(user)
+    res.status(200).json("Account has been deleted successfully")
+  }else{
+    res.status(400).json("You dont have permission to delete this account")
+  }
+}
 
-module.exports = {updatePassword}
+module.exports = {updatePassword , deleteAccount}
