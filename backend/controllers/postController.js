@@ -17,7 +17,7 @@ const createPost = async (req, res) => {
   res.status(200).json({ newPost, totalPost: newPost.length });
 };
 
-//////////////
+
 //getyouruploaded post
 //////////
 
@@ -30,7 +30,7 @@ const getMyPost = async (req, res) => {
     return res.status(400).json({ msg: "You dont have any post" });
   }
 
-  res.status(200).json({ yourPost: mypost, totalPost: mypost.length });
+  res.status(200).json({  mypost, totalPost: mypost.length });
 };
 
 ////////////////////////

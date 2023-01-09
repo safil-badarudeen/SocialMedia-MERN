@@ -111,11 +111,11 @@ function ProfileLeftbar() {
         </div>
       </div>
 
-      {/* Left profile -> your friends */}
+      {/* Left profile ->following*/}
       {/* -------------------------------------------- */}
 
       <div className="YourFriendscontainer">
-        <h4 style={{ marginTop: "2px" }}>Your Friends</h4>
+        <h4 style={{ marginTop: "2px" }}>following</h4>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <p style={{ marginLeft: 18, marginTop: -12 }}>Friends</p>
           <p style={{ marginRight: 18, marginTop: -12, color: "#aaa" }}>
@@ -123,39 +123,39 @@ function ProfileLeftbar() {
           </p>
         </div>
         <div style={{ display: "flex", flexWrap: "wrap" }}>
-          <div>
+          <div style={{cursor:'pointer'}}>
             <img src={`${FriendProfile}`} className="FriendProfilePic" alt="" />
             <p className="FriendsName">name</p>
           </div>
-          <div>
+          <div style={{cursor:'pointer'}}>
             <img src={`${FriendProfile}`} className="FriendProfilePic" alt="" />
             <p className="FriendsName">name</p>
           </div>
-          <div>
+          <div style={{cursor:'pointer'}}>
             <img src={`${FriendProfile}`} className="FriendProfilePic" alt="" />
             <p className="FriendsName">name</p>
           </div>
-          <div>
+          <div style={{cursor:'pointer'}}>
             <img src={`${FriendProfile}`} className="FriendProfilePic" alt="" />
             <p className="FriendsName">name</p>
           </div>
-          <div>
+          <div style={{cursor:'pointer'}}>
             <img src={`${FriendProfile}`} className="FriendProfilePic" alt="" />
             <p className="FriendsName">name</p>
           </div>
-          <div>
+          <div style={{cursor:'pointer'}}>
             <img src={`${FriendProfile}`} className="FriendProfilePic" alt="" />
             <p className="FriendsName">name</p>
           </div>
-          <div>
+          <div style={{cursor:'pointer'}}>
             <img src={`${FriendProfile}`} className="FriendProfilePic" alt="" />
             <p className="FriendsName">name</p>
           </div>
-          <div>
+          <div style={{cursor:'pointer'}}>
             <img src={`${FriendProfile}`} className="FriendProfilePic" alt="" />
             <p className="FriendsName">name</p>
           </div>
-          <div>
+          <div style={{cursor:'pointer'}}>
             <img src={`${FriendProfile}`} className="FriendProfilePic" alt="" />
             <p className="FriendsName">name</p>
           </div>

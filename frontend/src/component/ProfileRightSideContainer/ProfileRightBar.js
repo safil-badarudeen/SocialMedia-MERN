@@ -9,7 +9,7 @@ function ProfileRightBar() {
   return (
     <div className='ProfileRightBar'>
     <div className="HabitiansRequestContainer">
-      <p style={{ fontWeight: "bold" }}>Habitians Request</p>
+      <p style={{ fontWeight: "bold" }}>Followers</p>
       <div style={{ marginTop:15}}>
         <div style={{ display: "flex" ,marginTop:1}}>
           <img
@@ -24,13 +24,10 @@ function ProfileRightBar() {
               marginRight: 20,
             }}
           >
-            mubu want to make you a peer
+            mubu
           </p>
         </div>
-        <div style={{ display: "flex", justifyContent: "space-around" }}>
-          <button className="AcceptDenyButton">Accept</button>
-          <button className="AcceptDenyButton">Deny</button>
-        </div>
+        
       </div>
       {/* ------------------------------ */}
       <div style={{ marginTop:15}}>
@@ -47,13 +44,10 @@ function ProfileRightBar() {
               marginRight: 20,
             }}
           >
-            mubu want to make you a peer
+            mubu
           </p>
         </div>
-        <div style={{ display: "flex", justifyContent: "space-around" }}>
-          <button className="AcceptDenyButton">Accept</button>
-          <button className="AcceptDenyButton">Deny</button>
-        </div>
+        
       </div >
 
       {/* ------------------------------------- */}
@@ -71,13 +65,10 @@ function ProfileRightBar() {
               marginRight: 20,
             }}
           >
-            mubu want to make you a peer
+            mubu 
           </p>
         </div>
-        <div style={{ display: "flex", justifyContent: "space-around" }}>
-          <button className="AcceptDenyButton">Accept</button>
-          <button className="AcceptDenyButton">Deny</button>
-        </div>
+       
       </div>
     </div>
      

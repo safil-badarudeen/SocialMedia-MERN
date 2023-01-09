@@ -10,13 +10,13 @@
     border-radius:20px;
     margin-top: 20px;
     border-top:20px;
-    overflow-y:scroll    
+    overflow-y:auto;    
     
 }
 
 .RequestTapProfilePic{
-    height:70px;
-    width:70px;
+    height:60px;
+    width:60px;
     margin-left:20px;
     border-radius:11px;
 

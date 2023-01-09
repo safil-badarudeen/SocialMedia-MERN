@@ -7,6 +7,7 @@ const jwt = require("jsonwebtoken");
 
 
 
+
 //update user password
 const updatePassword = async (req,res) =>{
 
@@ -44,4 +45,14 @@ const deleteAccount = async(req,res)=>{
   }
 }
 
-module.exports = {updatePassword , deleteAccount}
+//getUser details for post
+
+const userDetails= async (req,res)=>{
+  const user = await  User.findById(req.params.id)
+  if(!user)return res.status(400).json("user not found")
+  console.log(user)
+  const { email,password,following,followers,mobilenumber,...other} = user._doc
+  res.status(200).json(other)
+}
+
+module.exports = {updatePassword , deleteAccount,userDetails}
