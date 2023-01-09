@@ -18,7 +18,7 @@ const updatePassword = async (req,res) =>{
       .status(400)
       .json({ errorMsg: "Some error, check email,username or password " });
   }
-
+  if (req.params.id === req.user.id){
   if (req.body.password){
     const salt = await bcrypt.genSalt(10);
     const secPass = await bcrypt.hash(req.body.password,salt)
@@ -28,6 +28,7 @@ const updatePassword = async (req,res) =>{
     })
     await update.save();
     res.status(200).json(update)
+  }
   }
 }
 

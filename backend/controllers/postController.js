@@ -101,16 +101,16 @@ const like = async (req, res) => {
 
 //dislike
 
-const dislike = async (req, res) => {
-  const post = await Post.findById(req.params.id);
-  if (!post.dislike.includes(req.body.user)) {
-    await post.updateOne({ $push: { dislike: req.body.user } });
-    return res.status(200).json("post has been disliked ");
-  } else {
-    await post.updateOne({ $pull: { dislike: req.body.user } });
-    return res.status(200).json("dislike removed");
-  }
-};
+// const dislike = async (req, res) => {
+//   const post = await Post.findById(req.params.id);
+//   if (!post.dislike.includes(req.body.user)) {
+//     await post.updateOne({ $push: { dislike: req.body.user } });
+//     return res.status(200).json("post has been disliked ");
+//   } else {
+//     await post.updateOne({ $pull: { dislike: req.body.user } });
+//     return res.status(200).json("dislike removed");
+//   }
+// };
 
 const comment = async (req,res)=>{
   const { postId, comment} = req.body
@@ -125,7 +125,21 @@ const comment = async (req,res)=>{
   res.status(200).json(post)
 }
 
+const deletePost = async (req,res) =>{
 
+  const post = await Post.findOne({_id:req.params.id})
+ 
+  if(post.user == req.user.id){
+    
+     await post.remove()
+    // const deletePost = await Post.findByIdAndDelete(req.params.id)
+    //    await deletePost.save()
+     return res.status(200).json("post has deleted successfully")
+  }else{
+    return res.status(400).json("you dont have access to delete this post")
+  }
+ 
+}
 
 module.exports = {
   createPost,
@@ -134,6 +148,6 @@ module.exports = {
   following,
   followingPost,
   like,
-  dislike,
-  comment
+  // dislike,
+  comment,deletePost
 };
