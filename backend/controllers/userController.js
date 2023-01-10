@@ -55,4 +55,37 @@ const userDetails= async (req,res)=>{
   res.status(200).json(other)
 }
 
-module.exports = {updatePassword , deleteAccount,userDetails}
+// get user for suggestion
+
+const userSuggestions = async (req,res)=>{
+  try{
+    const {id}=req.user
+  const allUser = await User.find()
+  
+  // console.log(allUser)
+  const user = await User.findById(id);
+ 
+  const followingUser= await Promise.all(
+    user.following.map((item)=>  item )
+  )
+
+  let userToFollow = await allUser.filter((user)=>{
+     return !followingUser.find((item)=>{
+      return user._id.toString() === item
+     })
+  })
+
+  let filterUsers = await Promise.all(
+    userToFollow.map((user)=>{
+      const {email, mobilenumber,followers,following,password,...others} = user._doc
+      return others
+    })
+    
+  )
+  res.status(200).json(filterUsers)
+  }catch(error){
+    res.status(500).json("internal server error")
+  }
+}
+
+module.exports = {updatePassword , deleteAccount,userDetails , userSuggestions}

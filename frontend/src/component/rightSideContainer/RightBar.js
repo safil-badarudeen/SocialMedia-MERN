@@ -1,11 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import frndImage from "../images/friendImage.jpg";
-import addFrnd from "../images/addFriend.png";
+
 import AdImage from "../images/adimage.webp";
 
 import "./rightBar.css";
+import axios from "axios";
+import Follow from "./Follow";
 
 function RightBar() {
+  const accesstoken =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYmJkOTY1MzVmYWU2NWUzZTM3YjlmOCIsInVzZXJuYW1lIjoic2hhaWxhIiwiaWF0IjoxNjczMjU1Mjg0fQ.n-TLoBYZcpR7mi5aWFEMB28vLhpSuGbwJRjDcG6DQ2s";
+  const [SuggestionUser, setSuggestionUser] = useState([]);
+  useEffect(() => {
+    const getPost = async () => {
+      try {
+        const res = await axios.get(
+          "http://localhost:5000/api/user/usersuggestions",
+          {
+            headers: {
+              token: accesstoken,
+            },
+          }
+        );
+        setSuggestionUser(res.data);
+      } catch (error) {}
+    };
+    getPost();
+  }, []);
   return (
     <div className="Rightbar">
       <div className="RightContainer">
@@ -61,118 +82,20 @@ function RightBar() {
             </p>
           </div>
         </div>
-       
       </div>
-      
+
       {/* container at right bottom
       -------------------------------------------------------- */}
 
-        
       <div className="RightContainer2">
-        <h3 style={{textAlign:'start', marginLeft:'20px'}}>Suggested for you</h3>
-        <div style={{ marginTop:'10px '}}>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <img src={`${frndImage}`} className="ProfileImage" alt="" />
-              <div>
-              <p style={{ marginLeft: "20px" }}>Sanam</p>
-              <p style={{marginLeft:'20px',textAlign:'start',marginTop:'-17px',fontSize:'13px',color:'#aaa'}}>follows you</p>
-              </div>
-            </div>
-            <div style={{ backgroundColor: "#aaa",borderRadius:'35%' ,marginRight:'10px',cursor:'pointer'}}>
-              <img src={`${addFrnd}`} className="AddFrndImage" alt="" />
-            </div>
-          </div>
-        </div>
-        {/* -------------------- */}
-        <div style={{ marginTop:'10px '}}>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <img src={`${frndImage}`} className="ProfileImage" alt="" />
-              <div>
-              <p style={{ marginLeft: "20px" }}>Sanam</p>
-              <p style={{marginLeft:'20px',textAlign:'start',marginTop:'-17px',fontSize:'13px',color:'#aaa'}}>follows you</p>
-              </div>
-            </div>
-            <div style={{ backgroundColor: "#aaa",borderRadius:'35%' ,marginRight:'10px',cursor:'pointer'}}>
-              <img src={`${addFrnd}`} className="AddFrndImage" alt="" />
-            </div>
-          </div>
-        </div>
-        {/* ----------------------- */}
-        <div style={{ marginTop:'10px '}}>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <img src={`${frndImage}`} className="ProfileImage" alt="" />
-              <div>
-              <p style={{ marginLeft: "20px" }}>Sanam</p>
-              <p style={{marginLeft:'20px',textAlign:'start',marginTop:'-17px',fontSize:'13px',color:'#aaa'}}>follows you</p>
-              </div>
-            </div>
-            <div style={{ backgroundColor: "#aaa",borderRadius:'35%' ,marginRight:'10px',cursor:'pointer'}}>
-              <img src={`${addFrnd}`} className="AddFrndImage" alt="" />
-            </div>
-          </div>
-        </div>
-        {/* ------------------------- */}
-        <div style={{ marginTop:'10px '}}>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <img src={`${frndImage}`} className="ProfileImage" alt="" />
-              <div>
-              <p style={{ marginLeft: "20px" }}>Sanam</p>
-              <p style={{marginLeft:'20px',textAlign:'start',marginTop:'-17px',fontSize:'13px',color:'#aaa'}}>follows you</p>
-              </div>
-            </div>
-            <div style={{ backgroundColor: "#aaa",borderRadius:'35%' ,marginRight:'10px',cursor:'pointer'}}>
-              <img src={`${addFrnd}`} className="AddFrndImage" alt="" />
-            </div>
-          </div>
-        </div>
-        {/* ------------------------ */}
-        <div style={{ marginTop:'10px '}}>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <img src={`${frndImage}`} className="ProfileImage" alt="" />
-              <div>
-              <p style={{ marginLeft: "20px" }}>Sanam</p>
-              <p style={{marginLeft:'20px',textAlign:'start',marginTop:'-17px',fontSize:'13px',color:'#aaa'}}>follows you</p>
-              </div>
-            </div>
-            <div style={{ backgroundColor: "#aaa",borderRadius:'35%' ,marginRight:'10px',cursor:'pointer'}}>
-              <img src={`${addFrnd}`} className="AddFrndImage" alt="" />
-            </div>
-          </div>
+        <h3 style={{ textAlign: "start", marginLeft: "20px" }}>
+          Suggested for you
+        </h3>
+        <div style={{ marginTop: "10px " }}>
+
+          {SuggestionUser.map((user) => (
+            <Follow userdetails={user}/>
+          ))}
         </div>
       </div>
     </div>

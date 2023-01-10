@@ -8,20 +8,54 @@ import "./post.css";
 import axios from "axios";
 
 function Post({ post }) {
-  const [Like, setLike] = useState(heartIcon);
+  const accesstoken =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYmE3OWQxNzlkMDdmNjA1MDdiOGQxZSIsInVzZXJuYW1lIjoic2hlcnZhIiwiaWF0IjoxNjczMTcyODAwfQ.FzukuO2lw5K4WB2BTyLSUpOgPWFDob3uM0trAlogFRc";
+
+  const userId = "63bbd96535fae65e3e37b9f8";
+
+  useEffect(() => {
+    const getUser = async () => {
+      try {
+        //backend userDetails route
+        const response = await axios.get(
+          `http://localhost:5000/api/user/userdetails/${post.user}`,
+          {
+            headers: {
+              token: accesstoken,
+            },
+          }
+        );
+        setUser(response.data);
+      } catch (error) {
+        console.log("error on response");
+      }
+    };
+    getUser();
+  }, [post.user]);
+
+  const [Like, setLike] = useState(
+    [post.like.includes(userId) ? anotherHeart : heartIcon]
+  );
   const [Count, setCount] = useState(post.like.length);
   const [Comments, setComments] = useState([]);
   const [CommentWriting, setCommentWriting] = useState("");
-  const [CommentCount, setCommentCount] = useState(3);
+  const [CommentCount, setCommentCount] = useState(post.comments.length);
   const [ShowComment, setShowComment] = useState(false);
   const [user, setUser] = useState([]);
- 
-  const handleLike = () => {
-    
+   
+  const handleLike = async () => {
+    await fetch(`http://localhost:5000/api/post/${post._id}/like`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/Json", token: accesstoken },
+    });
     if (Like === heartIcon) {
       setLike(anotherHeart);
       setCount(Count + 1);
     } else {
+      await fetch(`http://localhost:5000/api/post/${post._id}/like`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/Json", token: accesstoken },
+    });
       setLike(heartIcon);
       setCount(Count - 1);
     }
@@ -48,28 +82,6 @@ function Post({ post }) {
       setShowComment(true);
     }
   };
-
-  const accesstoken =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYmE3OWQxNzlkMDdmNjA1MDdiOGQxZSIsInVzZXJuYW1lIjoic2hlcnZhIiwiaWF0IjoxNjczMTcyODAwfQ.FzukuO2lw5K4WB2BTyLSUpOgPWFDob3uM0trAlogFRc";
-
-  useEffect(() => {
-    const getUser = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:5000/api/user/userdetails/${post.user}`,
-          {
-            headers: {
-              token: accesstoken,
-            },
-          }
-        );
-        setUser(response.data);
-      } catch (error) {
-        console.log("error on response");
-      }
-    };
-    getUser();
-  }, []);
 
   return (
     <div className="PostContainer">
@@ -126,7 +138,7 @@ function Post({ post }) {
                 className="LikeAndComment"
                 alt=""
               />
-              <p style={{ marginLeft: "10px" }}> {post.like.length} likes</p>
+              <p style={{ marginLeft: "10px" }}> {Count} likes</p>
             </div>
             <div
               style={{
@@ -141,7 +153,7 @@ function Post({ post }) {
                 className="LikeAndComment"
                 alt=""
               />
-              <p style={{ marginLeft: "10px" }}>{post.comments.length} comments</p>
+              <p style={{ marginLeft: "10px" }}>{CommentCount} comments</p>
             </div>
           </div>
           <div

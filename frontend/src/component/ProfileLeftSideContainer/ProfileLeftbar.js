@@ -6,6 +6,7 @@ import FriendProfile from "../images/friendprofile.jpg";
 import "./profileleftbar.css";
 
 function ProfileLeftbar() {
+  
   return (
     <div className="ProfileLeftbar">
       {/* Left User Profile tab */}
