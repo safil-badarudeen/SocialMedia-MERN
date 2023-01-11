@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "../images/friendprofile.jpg";
 import ProfilePic from "../images/profilePic.jpg";
 import FriendProfile from "../images/friendprofile.jpg";
@@ -6,6 +6,7 @@ import FriendProfile from "../images/friendprofile.jpg";
 import "./profileleftbar.css";
 
 function ProfileLeftbar() {
+  const [followinguser,setFollowinguser]=useState([])
   
   return (
     <div className="ProfileLeftbar">

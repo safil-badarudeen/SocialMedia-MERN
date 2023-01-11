@@ -14,7 +14,7 @@ const {
 const { verifyToken } = require("../utils/verifyToken");
 
 router.post("/user/createPost", verifyToken, createPost);
-router.get("/user/getMyPost", verifyToken, getMyPost);
+router.get("/user/getMyPost/:id", getMyPost);
 
 //like and dislike
 router.put("/:id/like", verifyToken, like);

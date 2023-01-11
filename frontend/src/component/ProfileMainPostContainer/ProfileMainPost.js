@@ -8,15 +8,13 @@ import axios from "axios";
 
 function ProfileMainPost() {
   const [post, setPost] = useState([]);
-  const accesstoken =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYmJkOTBhMzVmYWU2NWUzZTM3YjlmNCIsInVzZXJuYW1lIjoic2FmaWwiLCJpYXQiOjE2NzMyNTUzNTV9.JSi3ffNctkFjAaPipjNgUfAimAlZ2Pg-E_Ccrg53eKA";
-
+ 
   useEffect(() => {
     const getPost = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:5000/api/post/user/getMypost",
-          { headers: { token: accesstoken } }
+          "http://localhost:5000/api/post/user/getMypost/63bbd90a35fae65e3e37b9f4"
+          
         );
         setPost(res.data);
       } catch (error) {}

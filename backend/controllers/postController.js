@@ -22,14 +22,14 @@ const createPost = async (req, res) => {
 //////////
 
 const getMyPost = async (req, res) => {
-  const { id } = req.user;
+  const { id } = req.params;
 
   const mypost = await Post.find({ user: id });
 
   if (!mypost) {
     return res.status(400).json({ msg: "You dont have any post" });
   }
-  console.log(typeof mypost)
+  
 
   res.status(200).json(mypost);
 };
@@ -86,7 +86,7 @@ const followingPost = async (req, res) => {
   );
 
   res.status(200).json(posts);
-  console.log(typeof posts)
+  
 };
 
 //like
