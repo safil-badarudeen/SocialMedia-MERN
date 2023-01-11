@@ -9,17 +9,17 @@ function Follow({ userdetails }) {
   const accesstoken =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYmJkOTY1MzVmYWU2NWUzZTM3YjlmOCIsInVzZXJuYW1lIjoic2hhaWxhIiwiaWF0IjoxNjczMjU1Mjg0fQ.n-TLoBYZcpR7mi5aWFEMB28vLhpSuGbwJRjDcG6DQ2s";
   const handleRequest = async (e) => {
-    await fetch(
-      `http://localhost:5000/api/post/user/following/${userdetails._id}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-type": "application/JSON",
-          token: accesstoken,
-        },
-        // body: JSON.stringify({user})
-      }
-    );
+    // await fetch(
+    //   `http://localhost:5000/api/post/user/following/${userdetails._id}`,
+    //   {
+    //     method: "PUT",
+    //     headers: {
+    //       "Content-type": "application/JSON",
+    //       token: accesstoken,
+    //     },
+    //     // body: JSON.stringify({user})
+    //   }
+    // );
     setRequestimage(addedFriend);
   };
 

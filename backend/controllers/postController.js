@@ -29,8 +29,9 @@ const getMyPost = async (req, res) => {
   if (!mypost) {
     return res.status(400).json({ msg: "You dont have any post" });
   }
+  console.log(typeof mypost)
 
-  res.status(200).json({  mypost, totalPost: mypost.length });
+  res.status(200).json(mypost);
 };
 
 ////////////////////////
@@ -83,7 +84,9 @@ const followingPost = async (req, res) => {
       return Post.find({ user: item });
     })
   );
+
   res.status(200).json(posts);
+  console.log(typeof posts)
 };
 
 //like

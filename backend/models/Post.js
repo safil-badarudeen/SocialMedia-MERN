@@ -29,11 +29,6 @@ const Postschema = new mongoose.Schema({
         type:String,
         
     },
-   dislike:{
-        type:String,
-        default:0,
-    },
-
     comments:[
         {
             user:{

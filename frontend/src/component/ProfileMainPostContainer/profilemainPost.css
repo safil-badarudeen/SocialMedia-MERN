@@ -1,6 +1,14 @@
-.MainPostContainer{
+.ProfileMainPostContainer{
     flex:3;
   
+}
+.profilemainh3style{
+    color: "white";
+    margin-top: -35px;
+    font-size: 20px;
+    text-align: "start";
+    margin-left: 40;
+    
 }
 
 
