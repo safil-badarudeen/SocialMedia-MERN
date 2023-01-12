@@ -55,7 +55,7 @@ const userDetails = async (req, res) => {
 
 const userSuggestions = async (req, res) => {
   try {
-    const { id } = req.user;
+    const { id } = req.params;
     const allUser = await User.find();
 
     // console.log(allUser)

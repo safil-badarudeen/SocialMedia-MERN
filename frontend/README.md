@@ -6,7 +6,9 @@ backend
 2-bcrypt
 3-json web token;
 4- axios
-5-
+5-react redux 
+6- redux toolkit
+7- redix persist 
 
 
 
@@ -19,4 +21,7 @@ features :
 3 post comment 
 4 profile view
 5  view post 
+6 follower view, and following user view
+7 suggestion to follow 
+8 
 6 chat 

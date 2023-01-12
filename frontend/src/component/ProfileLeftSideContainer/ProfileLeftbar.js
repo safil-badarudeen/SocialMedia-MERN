@@ -1,13 +1,26 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Image from "../images/friendprofile.jpg";
 import ProfilePic from "../images/profilePic.jpg";
 import FriendProfile from "../images/friendprofile.jpg";
 
 import "./profileleftbar.css";
+import axios from "axios";
 
 function ProfileLeftbar() {
   const [followinguser,setFollowinguser]=useState([])
-  
+
+  useEffect(()=>{
+     const getUser = async()=>{
+      try {
+        const response = await axios.get('http://localhost:5000/api/user/followingusers/63bbd90a35fae65e3e37b9f4');
+        setFollowinguser(response.data);
+      } catch (error) {
+        console.log(error)
+      }
+     }
+     getUser()
+  },[])
+ 
   return (
     <div className="ProfileLeftbar">
       {/* Left User Profile tab */}
@@ -125,42 +138,14 @@ function ProfileLeftbar() {
           </p>
         </div>
         <div style={{ display: "flex", flexWrap: "wrap" }}>
-          <div style={{cursor:'pointer'}}>
-            <img src={`${FriendProfile}`} className="FriendProfilePic" alt="" />
-            <p className="FriendsName">name</p>
-          </div>
-          <div style={{cursor:'pointer'}}>
-            <img src={`${FriendProfile}`} className="FriendProfilePic" alt="" />
-            <p className="FriendsName">name</p>
-          </div>
-          <div style={{cursor:'pointer'}}>
-            <img src={`${FriendProfile}`} className="FriendProfilePic" alt="" />
-            <p className="FriendsName">name</p>
-          </div>
-          <div style={{cursor:'pointer'}}>
-            <img src={`${FriendProfile}`} className="FriendProfilePic" alt="" />
-            <p className="FriendsName">name</p>
-          </div>
-          <div style={{cursor:'pointer'}}>
-            <img src={`${FriendProfile}`} className="FriendProfilePic" alt="" />
-            <p className="FriendsName">name</p>
-          </div>
-          <div style={{cursor:'pointer'}}>
-            <img src={`${FriendProfile}`} className="FriendProfilePic" alt="" />
-            <p className="FriendsName">name</p>
-          </div>
-          <div style={{cursor:'pointer'}}>
-            <img src={`${FriendProfile}`} className="FriendProfilePic" alt="" />
-            <p className="FriendsName">name</p>
-          </div>
-          <div style={{cursor:'pointer'}}>
-            <img src={`${FriendProfile}`} className="FriendProfilePic" alt="" />
-            <p className="FriendsName">name</p>
-          </div>
-          <div style={{cursor:'pointer'}}>
-            <img src={`${FriendProfile}`} className="FriendProfilePic" alt="" />
-            <p className="FriendsName">name</p>
-          </div>
+        {followinguser.map((data)=>(
+          <div style={{cursor:'pointer'}} key={data._id}>
+          <img src={data.profile} className="FriendProfilePic" alt="" />
+          <p className="FriendsName">{data.username}</p>
+        </div>
+        ))}
+          
+
         </div>
       </div>
     </div>

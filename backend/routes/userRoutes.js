@@ -11,17 +11,18 @@ const {
 } = require("../controllers/userController");
 const { verifyToken } = require("../utils/verifyToken");
 
-//Usersuggestion
-router.get("/usersuggestions", verifyToken, userSuggestions);
+
 //update password
 router.put("/updatepassword/:id", verifyToken, updatePassword);
 //delete account
 router.delete("/deleteaccount/:id", verifyToken, deleteAccount);
 //user details
 router.get("/userdetails/:id", verifyToken, userDetails);
+//Usersuggestion
+router.get("/usersuggestions/:id", userSuggestions);
 //followingUsers
-router.get("/followingusers/:id", verifyToken, followingUsers);
-//users you follow
+router.get("/followingusers/:id",  followingUsers);
+//users follow you
 router.get("/usersfollow/:id", usersFollow);
 
 module.exports = router;
