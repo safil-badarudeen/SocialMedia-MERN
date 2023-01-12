@@ -23,5 +23,5 @@ features :
 5  view post 
 6 follower view, and following user view
 7 suggestion to follow 
-8 
+8 navigation user if logged in
 6 chat 

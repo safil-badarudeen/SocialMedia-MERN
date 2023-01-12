@@ -5,8 +5,12 @@ import Notification from "../images/notificationIcon.png";
 import ProfilePic from "../images/profilePic.jpg";
 import Message from "../images/Message.png";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
+  const userDetails = useSelector((state)=>state.user)
+  const user=userDetails.user;
+   let id = user.data.userId;
   return (
     <div className="MainNavbar">
       <div className="LogoContainer">
@@ -27,7 +31,7 @@ const Navbar = () => {
       <div className="IconsContainer">
         <img src={`${Notification}`} className="IconsNav" alt=""></img>
         <img src={`${Message}`} className="IconsNav" alt=""></img>
-        <Link to="/profile/88888">
+        <Link to={`profile/${id}`} >
           <div style={{ display: "flex", alignItems: "center" }}>
             <img src={`${ProfilePic}`} className="ProfileImage" alt=""></img>
             <p style={{ marginLeft: "10px" }}>Safil</p>

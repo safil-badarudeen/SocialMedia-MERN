@@ -27,7 +27,7 @@ function MainPost() {
     getPost();
   },[]);
   
-   console.log( `mainpost  ${post}`)
+  
   return (
     <div className="MainPostContainer">
       <ContentPost />

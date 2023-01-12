@@ -5,22 +5,34 @@ import FriendProfile from "../images/friendprofile.jpg";
 
 import "./profileleftbar.css";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 function ProfileLeftbar() {
-  const [followinguser,setFollowinguser]=useState([])
+ 
+  //using state from store get user details
+  const userDetails = useSelector((state)=>state.user)
+  const user=userDetails.user;
+   let id = user.data.userId;
+   const username=user.data.username;
 
+  const [followinguser,setFollowinguser]=useState([])
+  //state to get value of user currently using account
+  //get user from loged in and send data to profile tab
+  const [User,setUser]=useState([])
   useEffect(()=>{
      const getUser = async()=>{
       try {
-        const response = await axios.get('http://localhost:5000/api/user/followingusers/63bbd90a35fae65e3e37b9f4');
+        const response = await axios.get(`http://localhost:5000/api/user/followingusers/${id}`);
         setFollowinguser(response.data);
+        
       } catch (error) {
         console.log(error)
       }
      }
      getUser()
   },[])
- 
+
+  console.log(User)
   return (
     <div className="ProfileLeftbar">
       {/* Left User Profile tab */}
@@ -49,7 +61,7 @@ function ProfileLeftbar() {
                 fontSize: 20,
               }}
             >
-              Safil
+             {username}
             </p>
             <p
               style={{

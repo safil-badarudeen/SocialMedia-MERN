@@ -22,7 +22,6 @@ const Postschema = new mongoose.Schema({
 
     like:{
         type:Array,
-        default:0,
     },
     
     comment:{

@@ -3,15 +3,22 @@ import Follow from "../rightSideContainer/Follow";
 import axios from "axios";
 
 import "./profilerightbar.css";
+import { useSelector } from "react-redux";
 
 function ProfileRightBar() {
+
+  const userDetails = useSelector((state)=>state.user)
+    const user=userDetails.user;
+     let id = user.data.userId;
+
   const [followerUser, setFollowerUser] = useState([]);
 
   useEffect(() => {
+    
     const getUser = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/user/usersfollow/63bbd90a35fae65e3e37b9f4"
+          `http://localhost:5000/api/user/usersfollow/${id}`
         );
         setFollowerUser(response.data);
       } catch (error) {
@@ -30,7 +37,7 @@ function ProfileRightBar() {
     const getPost = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:5000/api/user/usersuggestions/63bbd90a35fae65e3e37b9f4"
+          `http://localhost:5000/api/user/usersuggestions/${id}`
         );
         setSuggestionUser(res.data);
       } catch (error) {
