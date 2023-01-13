@@ -7,7 +7,7 @@ const {
   userDetails,
   userSuggestions,
   followingUsers,
-  usersFollow,
+  usersFollowYou,
 } = require("../controllers/userController");
 const { verifyToken } = require("../utils/verifyToken");
 
@@ -17,12 +17,12 @@ router.put("/updatepassword/:id", verifyToken, updatePassword);
 //delete account
 router.delete("/deleteaccount/:id", verifyToken, deleteAccount);
 //user details
-router.get("/userdetails/:id", verifyToken, userDetails);
+router.get("/userdetails/:id",  userDetails);
 //Usersuggestion
 router.get("/usersuggestions/:id", userSuggestions);
 //followingUsers
 router.get("/followingusers/:id",  followingUsers);
 //users follow you
-router.get("/usersfollow/:id", usersFollow);
+router.get("/usersfollow/:id", usersFollowYou);
 
 module.exports = router;

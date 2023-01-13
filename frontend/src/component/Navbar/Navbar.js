@@ -4,13 +4,23 @@ import search from "../images/search.png";
 import Notification from "../images/notificationIcon.png";
 import ProfilePic from "../images/profilePic.jpg";
 import Message from "../images/Message.png";
+import {logout} from '../ReduxContainer/userReducer'
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const Navbar = () => {
+
   const userDetails = useSelector((state)=>state.user)
   const user=userDetails.user;
-   let id = user.data.userId;
+   let id = user?.data?.userId;
+   let username= user?.data?.username;
+   let profilepic = user?.data?.profile
+  const dispatch = useDispatch()
+
+   //sending action to global state ("user")
+   const handleClick = ()=>{
+    dispatch(logout())
+   }
   return (
     <div className="MainNavbar">
       <div className="LogoContainer">
@@ -33,9 +43,14 @@ const Navbar = () => {
         <img src={`${Message}`} className="IconsNav" alt=""></img>
         <Link to={`profile/${id}`} >
           <div style={{ display: "flex", alignItems: "center" }}>
-            <img src={`${ProfilePic}`} className="ProfileImage" alt=""></img>
-            <p style={{ marginLeft: "10px" }}>Safil</p>
+            <img src={profilepic} className="ProfileImage" alt=""></img>
+            <p style={{ marginLeft: "10px" }}>{username}</p>
           </div>
+        </Link>
+        <Link to={'/login'}>
+        <div className="logout">
+        <p  onClick={handleClick}>Logout</p>
+        </div>
         </Link>
       </div>
     </div>

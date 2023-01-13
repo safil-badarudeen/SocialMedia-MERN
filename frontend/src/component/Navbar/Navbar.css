@@ -57,3 +57,9 @@
     border-radius: 50%;
     margin-left:20px;
 }
+
+.logout{
+    margin-right:100px;
+    margin-left:20px;
+    cursor:'pointer'
+}

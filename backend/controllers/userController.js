@@ -46,8 +46,7 @@ const userDetails = async (req, res) => {
   const user = await User.findById(req.params.id);
   if (!user) return res.status(400).json("user not found");
   // console.log(user);
-  const { email, password, following, followers, mobilenumber, ...other } =
-    user._doc;
+  const { email, password, mobilenumber, ...other } = user._doc;
   res.status(200).json(other);
 };
 
@@ -88,21 +87,21 @@ const userSuggestions = async (req, res) => {
   }
 };
 
-//get following users
+//get users you follow
 const followingUsers = async (req, res) => {
   try {
    
     const user = await User.findById(req.params.id); //finding user
-    const usersFollowYou = await Promise.all(
+    const users = await Promise.all(
                                                     //in user.followers we will get object id's
-      user.followers.map((id) => {                  //using object id we find out users
+      user.following.map((id) => {                  //using object id we find out users
                                                     
          return User.findById(id);
       }) );
 
-        const followersList = [];
+        const followingList = [];
 
-        usersFollowYou.map((users) => {
+        users.map((item) => {
           const {
             email,
             password,
@@ -110,11 +109,11 @@ const followingUsers = async (req, res) => {
             following,
             followers,
             ...others
-          } = users._doc;
-          followersList.push(others);
+          } = item._doc;
+          followingList.push(others);
         });
 
-        res.status(200).json(followersList);
+        res.status(200).json(followingList);
       
    
   } catch (error) {
@@ -122,22 +121,23 @@ const followingUsers = async (req, res) => {
   }
 };
 
-//get users you Follow
+//get users Follow You
 
-const usersFollow = async (req, res) => {
+const usersFollowYou = async (req, res) => {
   try {
    
     const user = await User.findById(req.params.id); 
-    const usersYouFollow = await Promise.all(
+   
+    const users = await Promise.all(
                                                     
       user.followers.map((id) => {                  
                                                     
          return User.findById(id);
       }) );
 
-        const followingList = [];
+        const followerList = [];
 
-        usersYouFollow.map((users) => {
+        users.map((item) => {
           const {
             email,
             password,
@@ -145,11 +145,11 @@ const usersFollow = async (req, res) => {
             following,
             followers,
             ...others
-          } = users._doc;
-          followingList.push(others);
+          } = item._doc;
+          followerList.push(others);
         });
 
-        res.status(200).json(followingList);
+        res.status(200).json(followerList);
       
    
   } catch (error) {
@@ -165,6 +165,6 @@ module.exports = {
   userDetails,
   userSuggestions,
   followingUsers,
-  usersFollow
+  usersFollowYou
   
 };

@@ -8,7 +8,7 @@ backend
 4- axios
 5-react redux 
 6- redux toolkit
-7- redix persist 
+7- redux persist 
 
 
 
@@ -25,3 +25,4 @@ features :
 7 suggestion to follow 
 8 navigation user if logged in
 6 chat 
+  logout , login, register 

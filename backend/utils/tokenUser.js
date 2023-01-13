@@ -6,8 +6,8 @@ const createTokenUser = (user) => {
     email: user.email,
     profile: user.profile,
     mobilenumber: user.mobilenumber,
-    friends:user.friends,
-    pendingFriends:user.pending
+    following:user.following,
+    followers:user.followers
   };
 };
 

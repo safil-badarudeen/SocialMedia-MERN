@@ -3,23 +3,31 @@ import addFrnd from "../images/addFriend.png";
 import addedFriend from "../images/addedFriendpng.png";
 
 import "./rightBar.css";
+import { useSelector } from "react-redux";
 
 function Follow({ userdetails }) {
+  
+  const userDetails = useSelector((state) => state.user);
+  const user = userDetails.user;
+  let id = user.data.userId;
+  
+
   const [Requestimage, setRequestimage] = useState(addFrnd);
   const accesstoken =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYmJkOTY1MzVmYWU2NWUzZTM3YjlmOCIsInVzZXJuYW1lIjoic2hhaWxhIiwiaWF0IjoxNjczMjU1Mjg0fQ.n-TLoBYZcpR7mi5aWFEMB28vLhpSuGbwJRjDcG6DQ2s";
-  const handleRequest = async (e) => {
-    // await fetch(
-    //   `http://localhost:5000/api/post/user/following/${userdetails._id}`,
-    //   {
-    //     method: "PUT",
-    //     headers: {
-    //       "Content-type": "application/JSON",
-    //       token: accesstoken,
-    //     },
-    //     // body: JSON.stringify({user})
-    //   }
-    // );
+ 
+    const handleRequest = async (e) => {
+    await fetch(
+      `http://localhost:5000/api/post/user/following/${userdetails._id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-type": "application/JSON",
+          token: accesstoken,
+        },
+        body: JSON.stringify({ user: `${id}` }),
+      }
+    );
     setRequestimage(addedFriend);
   };
 

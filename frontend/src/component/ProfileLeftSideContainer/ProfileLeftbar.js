@@ -13,12 +13,16 @@ function ProfileLeftbar() {
   const userDetails = useSelector((state)=>state.user)
   const user=userDetails.user;
    let id = user.data.userId;
-   const username=user.data.username;
+   const username = user.data.username;
+   const profileimage=user.data.profile;
 
-  const [followinguser,setFollowinguser]=useState([])
+  
   //state to get value of user currently using account
   //get user from loged in and send data to profile tab
+  const [followinguser,setFollowinguser]=useState([])
   const [User,setUser]=useState([])
+ 
+
   useEffect(()=>{
      const getUser = async()=>{
       try {
@@ -31,8 +35,22 @@ function ProfileLeftbar() {
      }
      getUser()
   },[])
+ console.log(followinguser)
+  //to get data of currnt logged in user
+  
+  useEffect(()=>{
+    const getUser = async()=>{
+     try {
+       const response = await axios.get(`http://localhost:5000/api/user/userdetails/${id}`);
+       setUser(response.data);
+       
+     } catch (error) {
+       console.log(error)
+     }
+    }
+    getUser()
+ },[])
 
-  console.log(User)
   return (
     <div className="ProfileLeftbar">
       {/* Left User Profile tab */}
@@ -48,7 +66,7 @@ function ProfileLeftbar() {
           }}
         >
           <img
-            src={`${ProfilePic}`}
+            src={profileimage}
             className="ProfileContainerProfilePic"
             alt=""
           ></img>
@@ -77,7 +95,7 @@ function ProfileLeftbar() {
         </div>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <p style={{ marginLeft: 15, marginTop: 9, fontSize: 16 }}>
-            Profile Views
+            Followers
           </p>
           <p
             style={{
@@ -87,12 +105,12 @@ function ProfileLeftbar() {
               color: "black",
             }}
           >
-            8599
+           {User.followers && User.followers.length}
           </p>
         </div>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <p style={{ marginLeft: 15, marginTop: 9, fontSize: 16 }}>
-            Profile Views
+            Following
           </p>
           <p
             style={{
@@ -102,7 +120,7 @@ function ProfileLeftbar() {
               color: "black",
             }}
           >
-            8599
+          {User.followers && User.followers.length}
           </p>
         </div>
         <div style={{}}>
