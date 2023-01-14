@@ -6,12 +6,17 @@ import anotherHeart from "../images/anotherHeart.png";
 import shareIcon from "../images/shareIcon.png";
 import "./post.css";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 function Post({ post }) {
-  const accesstoken =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYmE3OWQxNzlkMDdmNjA1MDdiOGQxZSIsInVzZXJuYW1lIjoic2hlcnZhIiwiaWF0IjoxNjczMTcyODAwfQ.FzukuO2lw5K4WB2BTyLSUpOgPWFDob3uM0trAlogFRc";
+  // user logged in from global state
+  const userDetails = useSelector((state) => state.user);
+  const loggedInUser = userDetails.user;
+  const accesstoken = loggedInUser.accessToken
+    
 
-  const userId = "63bbd96535fae65e3e37b9f8";
+  const userId = loggedInUser.data.userId;
+
 
   useEffect(() => {
     const getUser = async () => {
@@ -27,22 +32,22 @@ function Post({ post }) {
         );
         setUser(response.data);
       } catch (error) {
-        console.log("error on response");
+        console.log("error on response", error);
       }
     };
     getUser();
   }, [post.user]);
 
-  const [Like, setLike] = useState(
-    [post.like.includes(userId) ? anotherHeart : heartIcon]
-  );
+  const [Like, setLike] = useState([
+    post.like.includes(userId) ? anotherHeart : heartIcon,
+  ]);
   const [Count, setCount] = useState(post.like.length);
-  const [Comments, setComments] = useState([]);
+  const [Comments, setComments] = useState(post.comments);
   const [CommentWriting, setCommentWriting] = useState("");
   const [CommentCount, setCommentCount] = useState(post.comments.length);
   const [ShowComment, setShowComment] = useState(false);
   const [user, setUser] = useState([]);
-   
+
   const handleLike = async () => {
     await fetch(`http://localhost:5000/api/post/${post._id}/like`, {
       method: "PUT",
@@ -53,20 +58,25 @@ function Post({ post }) {
       setCount(Count + 1);
     } else {
       await fetch(`http://localhost:5000/api/post/${post._id}/like`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/Json", token: accesstoken },
-    });
+        method: "PUT",
+        headers: { "Content-Type": "application/Json", token: accesstoken },
+      });
       setLike(heartIcon);
       setCount(Count - 1);
     }
   };
 
-  const addComment = () => {
+  const addComment = async() => {
     const comment = {
-      id: "154144554da5554",
-      username: "Safil",
-      title: `${CommentWriting}`,
+      postId: `${post._id}`,
+      username: `${loggedInUser.data.username}`,
+      comment: `${CommentWriting}`,
+      profile: `${loggedInUser.data.profile}`
     };
+    await fetch(`http://localhost:5000/api/post/user/comment`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/Json", token: accesstoken }, body: JSON.stringify(comment)
+    });
     setComments(Comments.concat(comment));
     setCommentCount(CommentCount + 1);
   };
@@ -115,17 +125,7 @@ function Post({ post }) {
             </p>
           </div>
         </div>
-        <p
-          style={{
-            width: "95%",
-            textAlign: "left",
-            margin: "auto",
-            marginTop: "10px",
-            marginLeft: "40px",
-          }}
-        >
-          {post.title}
-        </p>
+        <p className="postTitle">{post.title}</p>
         <img src={`${post.image}`} className="PostImage" alt="" />
         <div style={{ display: "flex" }}>
           <div
@@ -140,20 +140,14 @@ function Post({ post }) {
               />
               <p style={{ marginLeft: "10px" }}> {Count} likes</p>
             </div>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                cursor: "pointer",
-              }}
-            >
+            <div className="commentIconDiv">
               <img
                 src={`${commentIcon}`}
                 onClick={handleShowComment}
                 className="LikeAndComment"
                 alt=""
               />
-              <p style={{ marginLeft: "10px" }}>{CommentCount} comments</p>
+              <p style={{ marginLeft: "10px" }}>{Comments.length} comments</p>
             </div>
           </div>
           <div
@@ -190,11 +184,12 @@ function Post({ post }) {
             </div>
 
             {Comments.map((items) => {
+             
               return (
                 <div>
                   <div style={{ display: "flex" }}>
                     <img
-                      src={`${profilePicture}`}
+                      src={loggedInUser.data.profile}
                       className="CommentProfileImage"
                       alt=""
                     ></img>
@@ -210,7 +205,7 @@ function Post({ post }) {
                         fontSize: 15,
                       }}
                     >
-                      {items.title}
+                      {items.comment}
                     </p>
                     <p
                       style={{

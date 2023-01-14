@@ -84,6 +84,7 @@ const userSuggestions = async (req, res) => {
     res.status(200).json(filterUsers);
   } catch (error) {
     res.status(500).json("internal server error");
+    
   }
 };
 

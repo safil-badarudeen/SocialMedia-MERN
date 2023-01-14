@@ -41,6 +41,9 @@ const Postschema = new mongoose.Schema({
             comment:{
                 type:String,
                 required:true,
+            },
+            profile:{
+                type:String,
             }
 
         }

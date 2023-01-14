@@ -1,17 +1,22 @@
 import React from "react";
-import profileImage from "../images/friendprofile.jpg";
+
 import imageIcon from "../images/imageIcon.png";
 import videoIcon from "../images/videoIcon.png";
 import emojiIcon from "../images/emojiIcon.png";
 import "./contentPost.css";
+import { useSelector } from "react-redux";
 
 function ContentPost() {
+  const userDetails = useSelector((state) => state.user);
+  const user = userDetails.user;
+  const profileimage= user.data.profile
+ console.log(user)
   return (
     <div>
       <div className="ContentUploadContainer">
         <div style={{ display: "flex", justifyContent: "center" }}>
           <img
-            src={`${profileImage}`}
+            src={profileimage}
             className="ProfileImageContentTab"
             alt=""
           />

@@ -6,15 +6,20 @@ import AdImage from "../images/adimage.webp";
 import "./rightBar.css";
 import axios from "axios";
 import Follow from "./Follow";
+import { useSelector } from "react-redux";
 
 function RightBar() {
+ 
+  const userDetails = useSelector((state) => state.user);
+  const user = userDetails.user;
+  let id = user.data.userId;
   
   const [SuggestionUser, setSuggestionUser] = useState([]);
   useEffect(() => {
     const getPost = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:5000/api/user/usersuggestions/:id",
+          `http://localhost:5000/api/user/usersuggestions/${id}`,
          
         );
         setSuggestionUser(res.data);

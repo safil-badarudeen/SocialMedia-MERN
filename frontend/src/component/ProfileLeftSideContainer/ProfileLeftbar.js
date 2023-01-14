@@ -1,55 +1,70 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "../images/friendprofile.jpg";
-import ProfilePic from "../images/profilePic.jpg";
-import FriendProfile from "../images/friendprofile.jpg";
+
+import { useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import "./profileleftbar.css";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
 function ProfileLeftbar() {
- 
-  //using state from store get user details
-  const userDetails = useSelector((state)=>state.user)
-  const user=userDetails.user;
-   let id = user.data.userId;
-   const username = user.data.username;
-   const profileimage=user.data.profile;
+  // using uselocation to get id from req.params
+  // we have  alreaday got id of logined user in Navbar check Navabar if confused
 
-  
+  let location = useLocation();
+  let id = location.pathname.split("/")[2];
+
+  //action to get userdetails from global state
+  const userDetails = useSelector((state) => state.user);
+  const user = userDetails.user;
+  // let id = user.data.userId;
+  const username = user.data.username;
+  const profileimage = user.data.profile;
+  const following = user.data.following;
+  const followers = user.data.followers;
+
+ const accessToken = user.accessToken;
+
+ const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const getUser = async () => {
+      try {
+        //backend userDetails route
+        const response = await axios.get(
+          `http://localhost:5000/api/user/userdetails/${id}`,
+          {
+            headers: {
+              token: accessToken,
+            },
+          }
+        );
+        setData(response.data);
+      } catch (error) {
+        console.log("error on response");
+      }
+    };
+    getUser();
+  }, []);
+
   //state to get value of user currently using account
   //get user from loged in and send data to profile tab
-  const [followinguser,setFollowinguser]=useState([])
-  const [User,setUser]=useState([])
- 
+  const [followinguser, setFollowinguser] = useState([]);
 
-  useEffect(()=>{
-     const getUser = async()=>{
+  useEffect(() => {
+    const getUser = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/user/followingusers/${id}`);
+        const response = await axios.get(
+          `http://localhost:5000/api/user/followingusers/${id}`
+        );
         setFollowinguser(response.data);
-        
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
-     }
-     getUser()
-  },[])
- console.log(followinguser)
-  //to get data of currnt logged in user
-  
-  useEffect(()=>{
-    const getUser = async()=>{
-     try {
-       const response = await axios.get(`http://localhost:5000/api/user/userdetails/${id}`);
-       setUser(response.data);
-       
-     } catch (error) {
-       console.log(error)
-     }
-    }
-    getUser()
- },[])
+    };
+    getUser();
+  }, []);
 
   return (
     <div className="ProfileLeftbar">
@@ -57,102 +72,43 @@ function ProfileLeftbar() {
       {/* --------------------------------- */}
       <div className="ProfileLeftContainer">
         <img src={`${Image}`} className="CoverImage" alt></img>
-        <div
-          style={{
-            textAlign: "left",
-            marginLeft: 15,
-            marginTop: -10,
-            display: "flex",
-          }}
-        >
+        <div className="profileImage-proffession">
           <img
             src={profileimage}
             className="ProfileContainerProfilePic"
             alt=""
           ></img>
           <div>
-            <p
-              style={{
-                fontWeight: "bold",
-                marginLeft: 9,
-                marginTop: 9,
-                fontSize: 20,
-              }}
-            >
-             {username}
-            </p>
-            <p
-              style={{
-                marginLeft: 9,
-                marginTop: -23,
-                fontSize: 12,
-                color: "#aaa",
-              }}
-            >
-              Software developer
-            </p>
+            <p className="profileUsername">{username}</p>
+            <p classaName="profession">Software developer</p>
           </div>
         </div>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <p style={{ marginLeft: 15, marginTop: 9, fontSize: 16 }}>
             Followers
           </p>
-          <p
-            style={{
-              marginTop: 15,
-              fontSize: 14,
-              marginRight: 20,
-              color: "black",
-            }}
-          >
-           {User.followers && User.followers.length}
-          </p>
+          <p className="following-followers">{followers.length || 5}</p>
         </div>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <p style={{ marginLeft: 15, marginTop: 9, fontSize: 16 }}>
             Following
           </p>
-          <p
-            style={{
-              marginTop: 15,
-              fontSize: 14,
-              marginRight: 20,
-              color: "black",
-            }}
-          >
-          {User.followers && User.followers.length}
-          </p>
+          <p className="following-followers">{following.length}</p>
         </div>
         <div style={{}}>
-          <p
-            style={{
-              textAlign:"start",
-              marginTop: 0,
-              fontSize: 17,
-              fontWeight: "bold",
-              marginBottom:0,
-              marginLeft:10
-            }}
-          >
-            Bio
-          </p>
-          <p
-            style={{ marginTop:10, fontSize: 14, color: "black" }}
-          >
+          <p className="BioButton">Bio</p>
+          <p className="Biodescription">
             software developer who never lacks hunger for growth
           </p>
-          <button
-            style={{
-              border: "none",
-              padding: 10,
-              backgroundColor: "green",
-              color: "white",
-              fontSize: 15,
-              width: "100%",
-            }}
-          >
-            Edit Bio
-          </button>
+          {user.data.userId !== id ? (
+            <div>
+              <button className="editOrFollowButton">Follow</button>
+            </div>
+          ) : (
+            <div>
+              <button className="editOrFollowButton">Edit Bio</button>
+            </div>
+          )}
         </div>
       </div>
 
@@ -168,14 +124,14 @@ function ProfileLeftbar() {
           </p>
         </div>
         <div style={{ display: "flex", flexWrap: "wrap" }}>
-        {followinguser.map((data)=>(
-          <div style={{cursor:'pointer'}} key={data._id}>
-          <img src={data.profile} className="FriendProfilePic" alt="" />
-          <p className="FriendsName">{data.username}</p>
-        </div>
-        ))}
-          
-
+          {followinguser.map((data) => (
+            <Link to={`/profile/${data._id}`}>
+              <div style={{ cursor: "pointer" }} key={data._id}>
+                <img src={data.profile} className="FriendProfilePic" alt="" />
+                <p className="FriendsName">{data.username}</p>
+              </div>
+            </Link>
+          ))}
         </div>
       </div>
     </div>

@@ -4,12 +4,16 @@ import axios from "axios";
 
 import "./profilerightbar.css";
 import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 
 function ProfileRightBar() {
 
+  let location = useLocation();
+  let id = location.pathname.split("/")[2];
+
   const userDetails = useSelector((state)=>state.user)
     const user=userDetails.user;
-     let id = user.data.userId;
+    //  let id = user.data.userId;
 
   const [followerUser, setFollowerUser] = useState([]);
 
