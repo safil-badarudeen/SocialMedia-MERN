@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./mainPost.css";
 import ContentPost from "../contentPostContainer/ContentPost";
 import Post from "../postContainer/post";
@@ -6,15 +6,14 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 
 function MainPost() {
-
-  const userDetails = useSelector((state)=>state.user)
-  const user=userDetails.user;
-   let id = user?.data?.userId;
+  const userDetails = useSelector((state) => state.user);
+  const user = userDetails.user;
+  let id = user?.data?.userId;
   const accesstoken = user?.accessToken;
- 
-  const [post,setPost]=useState([])
+
+  const [post, setPost] = useState([]);
   useEffect(() => {
-    const getPost = async() =>{
+    const getPost = async () => {
       try {
         const res = await axios.get(
           `http://localhost:5000/api/post/user/followingPost/${id}`,
@@ -24,24 +23,18 @@ function MainPost() {
             },
           }
         );
-        setPost(res.data)
-      } catch(error) {
-
-      }
+        setPost(res.data);
+      } catch (error) {}
     };
     getPost();
-  },[]);
-  
-  
+  }, []);
+
   return (
     <div className="MainPostContainer">
       <ContentPost />
-      {post.map((items)=>
-        items.map((postDetails)=>(
-           <Post post={postDetails}/>
-         ))
-      )}
-       
+      {post.map((items) => (
+        <Post post={items} />
+      ))}
     </div>
   );
 }

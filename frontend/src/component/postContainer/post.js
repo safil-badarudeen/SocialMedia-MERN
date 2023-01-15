@@ -12,11 +12,9 @@ function Post({ post }) {
   // user logged in from global state
   const userDetails = useSelector((state) => state.user);
   const loggedInUser = userDetails.user;
-  const accesstoken = loggedInUser.accessToken
-    
+  const accesstoken = loggedInUser.accessToken;
 
   const userId = loggedInUser.data.userId;
-
 
   useEffect(() => {
     const getUser = async () => {
@@ -66,19 +64,20 @@ function Post({ post }) {
     }
   };
 
-  const addComment = async() => {
+  const addComment = async () => {
     const comment = {
       postId: `${post._id}`,
       username: `${loggedInUser.data.username}`,
       comment: `${CommentWriting}`,
-      profile: `${loggedInUser.data.profile}`
+      profile: `${loggedInUser.data.profile}`,
     };
     await fetch(`http://localhost:5000/api/post/user/comment`, {
       method: "PUT",
-      headers: { "Content-Type": "application/Json", token: accesstoken }, body: JSON.stringify(comment)
+      headers: { "Content-Type": "application/Json", token: accesstoken },
+      body: JSON.stringify(comment),
     });
     setComments(Comments.concat(comment));
-    setCommentCount(CommentCount + 1);
+    
   };
 
   const handleComment = () => {
@@ -126,7 +125,18 @@ function Post({ post }) {
           </div>
         </div>
         <p className="postTitle">{post.title}</p>
-        <img src={`${post.image}`} className="PostImage" alt="" />
+        
+        {/* diplay image and video alternatively*/}
+        {post.image !== "" ? (
+          <img src={`${post.image}`} className="PostImage" alt="" />
+        ) : post.video !== "" ? (
+          <video width="750" height="500" controls>
+            <source src={`${post.video}`} type="video/mp4" />
+          </video>
+        ) : (
+          ""
+        )}
+
         <div style={{ display: "flex" }}>
           <div
             style={{ display: "flex", marginLeft: "40px", cursor: "pointer" }}
@@ -184,7 +194,6 @@ function Post({ post }) {
             </div>
 
             {Comments.map((items) => {
-             
               return (
                 <div>
                   <div style={{ display: "flex" }}>

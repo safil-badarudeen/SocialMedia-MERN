@@ -9,6 +9,7 @@ backend
 5-react redux 
 6- redux toolkit
 7- redux persist 
+8-firebase
 
 
 

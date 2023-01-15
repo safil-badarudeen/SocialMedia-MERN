@@ -1,20 +1,19 @@
-import React,{useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import Image from "../images/friendprofile.jpg";
-import axios from 'axios'
+import axios from "axios";
 import "./leftbar.css";
 import { useSelector } from "react-redux";
 
 function Leftbar() {
+  const userDetails = useSelector((state) => state.user);
+  const user = userDetails.user;
+  let id = user?.data?.userId;
+  const accesstoken = user?.accessToken;
 
-  const userDetails = useSelector((state)=>state.user)
-  const user=userDetails.user;
-   let id = user?.data?.userId;
-  const accesstoken = user?.accessToken
-    
-  const [post,setPost]=useState([])
+  const [post, setPost] = useState([]);
 
   useEffect(() => {
-    const getPost = async () =>{
+    const getPost = async () => {
       try {
         const res = await axios.get(
           `http://localhost:5000/api/post/user/followingPost/${id}`,
@@ -24,13 +23,11 @@ function Leftbar() {
             },
           }
         );
-        setPost(res.data)
-      } catch(error) {
-
-      }
+        setPost(res.data);
+      } catch (error) {}
     };
     getPost();
-  },[]);
+  }, []);
   // console.log(post)
   return (
     <div className="Leftbar">
@@ -163,13 +160,15 @@ function Leftbar() {
           <p style={{ marginLeft: "-20px" }}>Explore </p>
           <p style={{ color: "#aaaa", marginLeft: "30px" }}> See All</p>
         </div>
-        <div style={{ display: "flex" }}>
-          {post.map((item)=>(
-            item.map((images)=>(
-              <div >
-              <img src={`${images.image}`} className="ExploreImage" alt="explore"/>
-              </div>
-            ))
+        <div style={{ display: "flex" , flexWrap: "wrap" }}>
+          {post.map((item) => (
+            <div>
+              <img
+                src={`${item.image}`}
+                className="ExploreImage"
+                alt="explore"
+              />
+            </div>
           ))}
         </div>
       </div>

@@ -84,8 +84,8 @@ const followingPost = async (req, res) => {
       return Post.find({ user: item });
     })
   );
-
-  res.status(200).json(posts);
+  const userPost = await Post.find({user: user._id})
+  res.status(200).json(userPost.concat(...posts));
   
 };
 
