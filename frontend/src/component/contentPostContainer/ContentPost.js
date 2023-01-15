@@ -22,8 +22,10 @@ function ContentPost() {
 
   const [file, setFile] = useState("");
   const [file2, setFile2] = useState("");
-  const [title, setTitle] = useState('')
-    console.log("file" ,file)
+  const [title, setTitle] = useState("");
+  const [imagePre, setImagePre] = useState(null);
+  const [videoPre, setVideoPre] = useState(null);
+  // console.log("file" ,file)
   // console.log("file2" ,file2)
 
   const handlePost = (e) => {
@@ -64,8 +66,15 @@ function ContentPost() {
                 "Content-Type": "application/json",
                 token: accessToken,
               },
-              body: JSON.stringify({ title: title, image: downloadURL , video:''}),
-            });
+              body: JSON.stringify({
+                title: title,
+                image: downloadURL,
+                video: "",
+              }),
+            }).then((data)=> {
+              alert("your post was uploaded successfully");
+              window.location.reload(true)
+            })
           });
         }
       );
@@ -105,8 +114,15 @@ function ContentPost() {
                 "Content-Type": "application/json",
                 token: accessToken,
               },
-              body: JSON.stringify({ title: title, video: downloadURL , image:'' }),
-            });
+              body: JSON.stringify({
+                title: title,
+                video: downloadURL,
+                image: "",
+              }),
+            }).then((data)=> {
+              alert("your post was uploaded successfully");
+              window.location.reload(true)
+            })
           });
         }
       );
@@ -117,10 +133,13 @@ function ContentPost() {
           "Content-Type": "application/json",
           token: accessToken,
         },
-        body: JSON.stringify({ title: title, video:'', image:'' }),
+        body: JSON.stringify({ title: title, video: "", image: "" }),
+      }).then((data)=> {
+        alert("your post was uploaded successfully");
+        window.location.reload(true)
       })
-    } else{
-      console.log('please  select a content to upload')
+    } else {
+      console.log("please  select a content to upload");
     }
   };
 
@@ -133,10 +152,18 @@ function ContentPost() {
             type="text"
             className="ContentWritingPart"
             placeholder="Write your real thought"
-            onChange={(e)=>setTitle(e.target.value)}
+            onChange={(e) => setTitle(e.target.value)}
           />
         </div>
-        <div style={{ display: "flex", marginLeft: "80px" }}>
+        <div style={{ marginLeft: "80px" }}>
+          {imagePre !== null ? (
+            <img className="imagePre" src={imagePre} />
+          ) : videoPre !== null ? (
+            <video className="imagePre" src={videoPre}></video>
+          ) : (
+            ""
+          )}
+
           <div>
             <label htmlFor="file">
               <img src={`${imageIcon}`} className="Icons" alt="" />
@@ -145,7 +172,10 @@ function ContentPost() {
                 name="file"
                 id="file"
                 style={{ display: "none" }}
-                onChange={(e) => setFile(e.target.files[0])}
+                onChange={(e) => [
+                  setFile(e.target.files[0]),
+                  setImagePre(URL.createObjectURL(e.target.files[0])),
+                ]}
               />
             </label>
             <img src={`${emojiIcon}`} className="Icons" alt="" />
@@ -157,7 +187,10 @@ function ContentPost() {
                 name="file2"
                 id="file2"
                 style={{ display: "none" }}
-                onChange={(e) => setFile2(e.target.files[0])}
+                onChange={(e) => [
+                  setFile2(e.target.files[0]),
+                  setVideoPre(URL.createObjectURL(e.target.files[0])),
+                ]}
               />
             </label>
             <button className="post-button" onClick={handlePost}>

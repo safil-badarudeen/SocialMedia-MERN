@@ -130,7 +130,7 @@ function Post({ post }) {
         {post.image !== "" ? (
           <img src={`${post.image}`} className="PostImage" alt="" />
         ) : post.video !== "" ? (
-          <video width="750" height="500" controls>
+          <video  className="PostImage" width="500" height="500" controls>
             <source src={`${post.video}`} type="video/mp4" />
           </video>
         ) : (

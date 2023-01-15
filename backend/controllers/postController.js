@@ -5,7 +5,9 @@ const User = require("../models/User");
 
 const createPost = async (req, res) => {
   let { title, image, video } = req.body;
-
+    if (!title){
+      title = ''
+    }
   let newPost = await Post.create({
     title,
     image,

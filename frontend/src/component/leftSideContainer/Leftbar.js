@@ -160,16 +160,20 @@ function Leftbar() {
           <p style={{ marginLeft: "-20px" }}>Explore </p>
           <p style={{ color: "#aaaa", marginLeft: "30px" }}> See All</p>
         </div>
-        <div style={{ display: "flex" , flexWrap: "wrap" }}>
-          {post.map((item) => (
-            <div>
-              <img
-                src={`${item.image}`}
-                className="ExploreImage"
-                alt="explore"
-              />
-            </div>
-          ))}
+        <div style={{ display: "flex", flexWrap: "wrap" }}>
+          {post.map((item) => [
+            item.image === "" ? (
+              ""
+            ) : (
+              <div>
+                <img
+                  src={`${item.image}`}
+                  className="ExploreImage"
+                  alt="explore"
+                />
+              </div>
+            ),
+          ])}
         </div>
       </div>
     </div>

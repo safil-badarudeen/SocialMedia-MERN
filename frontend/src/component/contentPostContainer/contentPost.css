@@ -1,7 +1,7 @@
 .ContentUploadContainer {
   width: 92%;
   background-color: white;
-  height: 26vh;
+  
   border-radius: 20px;
   margin: auto;
   margin-top: 25px;
@@ -15,6 +15,15 @@
   border: none;
 }
 
+.imagePre{
+    height:250px;
+    width:300px;
+    border-radius:15px;
+    margin-top:10px;
+    margin-left:20px;
+
+}
+
 .ProfileImageContentTab {
   width: 40px;
   border-radius: 50%;
@@ -24,6 +33,7 @@
 .post-button {
   margin-left: 260px;
   padding-right: 20px;
+  margin-bottom: 25px;
   padding-top: 10px;
   padding-left: 20px;
   padding-bottom: 5px;
