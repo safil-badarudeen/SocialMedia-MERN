@@ -14,10 +14,11 @@ const ResetTokenSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     required: true,
+    default: Date.now()
   },
 });
 
-ResetTokenSchema.pre('Save' ,async function(next){
+ResetTokenSchema.pre('save' ,async function(next){
      const salt = await bcrypt.genSalt(10);
      if(this.isModified("token")){
         const hash = await bcrypt.hash(this.token , salt);
