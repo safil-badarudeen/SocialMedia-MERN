@@ -11,9 +11,9 @@ const port=5000;
 
 // routes
 const authRouter = require('./routes/authRoutes');
-const postRouter = require('./routes/postRoutes')
-const userRouter = require('./routes/userRoutes')
-
+const postRouter = require('./routes/postRoutes');
+const userRouter = require('./routes/userRoutes');
+const accountRouter = require('./routes/accountRoutes');
 
 app.use(cors())
 app.use(express.json())
@@ -21,6 +21,7 @@ app.use(express.json())
 app.use('/api/auth',authRouter)
 app.use('/api/post',postRouter)
 app.use('/api/user',userRouter)
+app.use('/api/account',accountRouter)
  
 app.get('/',(req,res)=>{
     res.send('social api')

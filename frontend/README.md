@@ -10,6 +10,7 @@ backend
 6- redux toolkit
 7- redux persist 
 8-firebase
+9 - nodemailer
 
 
 

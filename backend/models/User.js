@@ -30,6 +30,11 @@ const Userschema = new mongoose.Schema({
     profile:{
         type:String,
     },
+    verified:{
+        type:Boolean,
+        default:false,
+        required:true,
+    }
 
  });
 
