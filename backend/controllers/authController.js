@@ -13,7 +13,6 @@ const register = async (req, res) => {
   await check("email").isEmail().run(req);
   await check("username").isLength({ min: 3 }).run(req);
   await check("password").isLength({ min: 4 }).run(req);
-  await check("mobilenumber").isLength({ min: 10 }).run(req);
 
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -22,7 +21,7 @@ const register = async (req, res) => {
       .json({ errorMsg: "Some error, check email,username or password " });
   }
 
-  const { email, username, password, mobilenumber, profile } = req.body;
+  const { email, username, password } = req.body;
 
   let user = await User.findOne({ email, username });
   if (user) {
@@ -39,8 +38,6 @@ const register = async (req, res) => {
     username,
     email,
     password: hashPassword,
-    mobilenumber,
-    profile,
   });
 
   const accessToken = jwt.sign(
@@ -51,7 +48,7 @@ const register = async (req, res) => {
     process.env.JWT_SEC
   );
   const OTP = generateOTP();
-  const verificationToken = await VerificationToken.create({
+  await VerificationToken.create({
     user: user._id,
     token: OTP,
   });
@@ -74,64 +71,71 @@ const register = async (req, res) => {
 
   await user.save();
 
-  const tokenUser = createTokenUser(user);
+  // const tokenUser = createTokenUser(user);
 
-  res.status(200).json({ data: tokenUser, accessToken });
+  res
+    .status(200)
+    .json({ Status: "pending", msg: " verify your email  ", user: user._id });
 };
 
 ///////////////////////////////////////////
 
 const emailVerification = async (req, res) => {
-  const { user, OTP } = req.body;
-  const mainUser = await User.findById(user);
-  if (!mainUser) {
-    return res.status(404).json({ msg: "user not found" });
+  try {
+    const { user, OTP } = req.body;
+    console.log('user data',user)
+    const mainUser = await User.findOne({_id:user});
+    if (!mainUser) {
+      return res.status(404).json({ msg: "user not found" });
+    }
+
+    if (mainUser.verified === true) {
+      res.status(400).json({ msg: "user already verified" });
+    }
+    const token = await VerificationToken.find({ user: mainUser._id });
+    // console.log(token);
+    if (!token) {
+      return res.status(404).json({ msg: "token not found" });
+    }
+
+    const isMatch = await bcrypt.compareSync(OTP, token[0].token);
+    if (!isMatch) {
+      return res.status(400).json({ msg: "OTP is not valid" });
+    }
+
+    mainUser.verified = true;
+    await VerificationToken.findByIdAndDelete(token._id);
+    await mainUser.save();
+    const accessToken = jwt.sign(
+      {
+        id: mainUser._id,
+        username: mainUser.username,
+      },
+      process.env.JWT_SEC
+    );
+
+    const { password, ...other } = mainUser._doc;
+
+    var transport = nodemailer.createTransport({
+      host: "smtp.mailtrap.io",
+      port: 2525,
+      auth: {
+        user: process.env.MAIL_USER,
+        pass: process.env.MAIL_PASSWORD,
+      },
+    });
+
+    transport.sendMail({
+      from: "socialMedia@gmail.com",
+      to: mainUser.email,
+      subject: "verify your email",
+      html: `<h1>your email is verified </h1>`,
+    });
+
+    res.status(200).json({ other, accessToken });
+  } catch (err) {
+    console.log(err);
   }
-
-  if (mainUser.verified === true) {
-    res.status(400).json({ msg: "user already verified" });
-  }
-  const token = await VerificationToken.find({ user: mainUser._id });
-  console.log(token);
-  if (!token) {
-    return res.status(404).json({ msg: "token not found" });
-  }
-
-  const isMatch = await bcrypt.compareSync(OTP, token[0].token);
-  if (!isMatch) {
-    return res.status(400).json({ msg: "OTP is not valid" });
-  }
-
-  mainUser.verified = true;
-  await VerificationToken.findByIdAndDelete(token._id);
-  await mainUser.save();
-  const accessToken = jwt.sign(
-    {
-      id: mainUser._id,
-      username: mainUser.username,
-    },
-    process.env.JWT_SEC
-  );
-
-  const { password, ...others } = mainUser._doc;
-
-  var transport = nodemailer.createTransport({
-    host: "smtp.mailtrap.io",
-    port: 2525,
-    auth: {
-      user: process.env.MAIL_USER,
-      pass: process.env.MAIL_PASSWORD,
-    },
-  });
-
-  transport.sendMail({
-    from: "socialMedia@gmail.com",
-    to: mainUser.email,
-    subject: "verify your email",
-    html: `<h1>your email is verified </h1>`,
-  });
-
-  res.status(200).json({ others, accessToken });
 };
 
 ////////////////////////////////////////////////
@@ -146,14 +150,17 @@ const login = async (req, res) => {
       .json({ errorMsg: "Some error, check email,username or password " });
   }
 
-  const { email, password } = req.body;
+  const { email } = req.body;
 
   const user = await User.findOne({ email });
   if (!user) {
     return res.status(400).json({ msg: "user not found" });
   }
 
-  const comparePassword = await bcrypt.compare(password, user.password);
+  const comparePassword = await bcrypt.compare(
+    req.body.password,
+    user.password
+  );
 
   if (!comparePassword) {
     return res.status(400).json("password Error");
@@ -161,7 +168,7 @@ const login = async (req, res) => {
 
   //tokenUser from utils to remove password and complicated signs from response
 
-  const tokenUser = createTokenUser(user);
+  const { password, ...other } = user._doc;
 
   const accessToken = jwt.sign(
     {
@@ -171,9 +178,9 @@ const login = async (req, res) => {
     process.env.JWT_SEC
   );
 
-  res.status(200).json({ data: tokenUser, accessToken });
+  res.status(200).json({ other, accessToken });
 };
 
 ////////////////////////////////////
 
-module.exports = { register, login , emailVerification};
+module.exports = { register, login, emailVerification };
