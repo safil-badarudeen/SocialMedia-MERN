@@ -19,10 +19,10 @@ function ProfileLeftbar() {
   const userDetails = useSelector((state) => state.user);
   const user = userDetails.user;
   // let id = user.data.userId;
-  const username = user.data.username;
-  const profileimage = user.data.profile;
-  const following = user.data.following;
-  const followers = user.data.followers;
+  const username = user.other.username;
+  const profileimage = user.other.profile;
+  const following = user.other.following;
+  const followers = user.other.followers;
 
  const accessToken = user.accessToken;
 
@@ -100,7 +100,7 @@ function ProfileLeftbar() {
           <p className="Biodescription">
             software developer who never lacks hunger for growth
           </p>
-          {user.data.userId !== id ? (
+          {user.other._id !== id ? (
             <div>
               <button className="editOrFollowButton">Follow</button>
             </div>

@@ -14,7 +14,7 @@ function Post({ post }) {
   const loggedInUser = userDetails.user;
   const accesstoken = loggedInUser.accessToken;
 
-  const userId = loggedInUser.data.userId;
+  const userId = loggedInUser.other._id;
 
   useEffect(() => {
     const getUser = async () => {

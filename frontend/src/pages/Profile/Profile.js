@@ -11,7 +11,7 @@ import './profile.css'
 function Profile() {
   const userDetails = useSelector ((state)=>state.user)
   const user=userDetails.user;
-   let id = user.data.userId;
+   let id = user.other._id;
 
   return (
     <div className='ProfileContainer'>

@@ -9,12 +9,12 @@ function Follow({ userdetails }) {
   
   const userDetails = useSelector((state) => state.user);
   const user = userDetails.user;
-  let id = user.data.userId;
+  let id = user.other._id;
+  const accesstoken = user.accessToken
   
 
   const [Requestimage, setRequestimage] = useState(addFrnd);
-  const accesstoken =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYmJkOTY1MzVmYWU2NWUzZTM3YjlmOCIsInVzZXJuYW1lIjoic2hhaWxhIiwiaWF0IjoxNjczMjU1Mjg0fQ.n-TLoBYZcpR7mi5aWFEMB28vLhpSuGbwJRjDcG6DQ2s";
+  
  
     const handleRequest = async (e) => {
     await fetch(

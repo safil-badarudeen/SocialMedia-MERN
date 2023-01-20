@@ -12,7 +12,7 @@ const Navbar = () => {
 
   const userDetails = useSelector((state)=>state.user)
   const user=userDetails.user;
-   let id = user?.data?.userId;
+   let id = user?.other?._id;
    let username= user?.data?.username;
    let profilepic = user?.data?.profile
   const dispatch = useDispatch()

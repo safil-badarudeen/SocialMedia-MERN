@@ -17,7 +17,7 @@ import {
 function ContentPost() {
   const userDetails = useSelector((state) => state.user);
   const user = userDetails.user;
-  const profileimage = user.data.profile;
+  const profileimage = user.other.profile;
   const accessToken = user.accessToken;
 
   const [file, setFile] = useState("");

@@ -12,7 +12,7 @@ function RightBar() {
  
   const userDetails = useSelector((state) => state.user);
   const user = userDetails.user;
-  let id = user.data.userId;
+  let id = user.other._id;
   
   const [SuggestionUser, setSuggestionUser] = useState([]);
   useEffect(() => {
