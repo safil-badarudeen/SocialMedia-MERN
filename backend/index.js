@@ -14,6 +14,7 @@ const authRouter = require('./routes/authRoutes');
 const postRouter = require('./routes/postRoutes');
 const userRouter = require('./routes/userRoutes');
 const accountRouter = require('./routes/accountRoutes');
+const messageRouter = require('./routes/messageRoutes')
 
 app.use(cors())
 app.use(express.json())
@@ -22,6 +23,7 @@ app.use('/api/auth',authRouter)
 app.use('/api/post',postRouter)
 app.use('/api/user',userRouter)
 app.use('/api/account',accountRouter)
+app.use('/api/chat',messageRouter)
  
 app.get('/',(req,res)=>{
     res.send('social api')
