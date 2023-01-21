@@ -11,7 +11,7 @@ function Chat() {
       </div>
       <div style={{display: "flex"}}>
       <Contact />
-        <ChatContainer />
+      
        
       </div>
     </div>
