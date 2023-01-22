@@ -33,7 +33,9 @@
 .conversationContainer{
     margin-top:20px;
     margin:30px;
-    height: 29pc;
+    
+    height: 27pc;
+    overflow-y: auto;
  
 }
 
@@ -84,5 +86,10 @@
     width:85px;
     color:white;
     cursor:pointer;
+    transition: 0.3s;
     
+}
+
+.sendButton:hover{
+    background-color: rgba(73, 71, 71, 0.459);
 }

@@ -13,8 +13,8 @@ const Navbar = () => {
   const userDetails = useSelector((state)=>state.user)
   const user=userDetails.user;
    let id = user?.other?._id;
-   let username= user?.data?.username;
-   let profilepic = user?.data?.profile
+   let username= user?.other?.username;
+   let profilepic = user?.other?.profile
   const dispatch = useDispatch()
 
    //sending action to global state ("user")

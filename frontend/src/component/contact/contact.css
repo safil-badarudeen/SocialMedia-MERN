@@ -63,3 +63,15 @@
 .ContactNameText{
     margin-left:20px
 }
+
+.openConversation{
+    display:flex;
+    align-items: center;
+    margin-left:300px;
+}
+
+.openConversationText{
+    color:rgba(41, 40, 39, 0.27);
+    font-size:45px;
+   
+}

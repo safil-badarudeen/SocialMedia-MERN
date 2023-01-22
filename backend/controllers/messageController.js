@@ -24,7 +24,7 @@ const recieveMessage = async (req, res) => {
       chatUsers: {
         $all: [from, to],
       },
-    }).sort({ updateAt: -1 });
+    }).sort({ updateAt: 1 });
 
     const allMessage = newMessage.map((msg) => {
       return {
@@ -32,7 +32,6 @@ const recieveMessage = async (req, res) => {
         message: msg.message,
       };
     });
-
     res.status(200).json(allMessage)
   } catch (err) {
     
