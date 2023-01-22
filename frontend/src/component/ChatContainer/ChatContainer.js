@@ -1,10 +1,12 @@
 import React, { useEffect } from "react";
 import "./chatContainer.css";
-import profileImage from "../images/profilePic.jpg";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { useRef } from "react";
+import {io} from 'socket.io-client';
+
+
 function ChatContainer({ currentChatUser }) {
   const userDetails = useSelector((state) => state.user);
   const user = userDetails.user;
@@ -14,8 +16,10 @@ function ChatContainer({ currentChatUser }) {
 
   const [chat, setChat] = useState([]);
   const [messageInput, setMessageInput] = useState("");
+  const [arrivalMessage, setArrivalMessage]=useState(null)
 
   const scrollRef = useRef();
+  const socket = useRef();
 
   useEffect(() => {
     const getChat = async () => {
@@ -40,8 +44,14 @@ function ChatContainer({ currentChatUser }) {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [chat]);
 
-  const sendMessage = async () => {
+  const sendMessage =  () => {
     try {
+     socket.current.emit("send-msg",{
+      to:currentChatUser._id,
+      from:id,
+      message:messageInput
+     })
+
       fetch(`http://localhost:5000/api/chat/message/create`, {
         method: "POST",
         headers: { "Content-Type": "application/JSON", token: accessToken },
@@ -63,6 +73,29 @@ function ChatContainer({ currentChatUser }) {
       console.log({ msg: error.message });
     }
   };
+
+  
+  useEffect(()=>{
+    if(currentChatUser !== null){
+      socket.current = io("http://localhost:5000");
+      socket.current.emit("addUser",id)
+    }
+  },[id])
+
+  useEffect(()=>{
+    if(socket.current ){
+   socket.current.on("msg-receive",(msg)=>{
+    console.log(msg);
+    setArrivalMessage({myself:false , message:msg})
+   },[arrivalMessage])
+    }
+  })
+
+  useEffect(()=>{
+    arrivalMessage && setMessageInput((pre)=>[...pre, arrivalMessage])
+  },[arrivalMessage])
+
+  
 
   return (
     <div className="ChatContainerMainContainer">
