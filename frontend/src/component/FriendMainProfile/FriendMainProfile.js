@@ -15,7 +15,7 @@ function FriendMainProfile() {
     const getUser = async () => {
         try {
           const response = await axios.get(
-            `http://localhost:5000/api/post/user/getMypost/63bbd90a35fae65e3e37b9f4`
+            `http://localhost:5000/api/post/user/getMypost/${userId}`
           );
           setPost(response.data);
           console.log('posts',posts)

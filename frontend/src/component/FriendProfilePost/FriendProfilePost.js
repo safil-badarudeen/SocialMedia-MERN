@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import profilePicture from "../images/profilePic.jpg";
 import commentIcon from "../images/commentIcon.png";
-import heartIcon from "../images/heartIcon.png";
-import anotherHeart from "../images/anotherHeart.png";
+import blackHeart from "../images/heartIcon.png";
+import redHeart from "../images/anotherHeart.png";
 import shareIcon from "../images/shareIcon.png";
 import axios from "axios";
 import './friendprofilepost.css'
@@ -37,32 +37,35 @@ function FriendProfilePost({posts}) {
     getUser();
   }, [posts.user]);
 
-  const [Like, setLike] = useState([
-    posts?.like?.includes(id) ? anotherHeart : heartIcon,
-  ]);
- 
+  const [Like, setLike] = useState(
+    posts?.like?.includes(id) ? redHeart : blackHeart,
+  );
+  
+  const [Count, setCount] = useState(posts?.like?.length);
   const [Comments, setComments] = useState(posts?.comments);
   const [CommentWriting, setCommentWriting] = useState("");
   const [ShowComment, setShowComment] = useState(false);
   const [user, setUser] = useState([]);
 
   const handleLike = async () => {
-    await fetch(`http://localhost:5000/api/post/${posts._id}/like`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/Json", token: accesstoken },
-    });
-    if (Like === heartIcon) {
-      setLike(anotherHeart);
-      
-    } else {
-      await fetch(`http://localhost:5000/api/post/${posts._id}/like`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/Json", token: accesstoken },
-      });
-      setLike(heartIcon);
-      
-    }
+       
+    Like === blackHeart ? setLike(redHeart) : setLike(blackHeart);
+    Like === blackHeart ? setCount(Count + 1) : setCount(Count - 1);
+   
+    //like will toggle in backend
+    await axios.put(
+      `http://localhost:5000/api/post/${posts._id}/like`,
+      {
+        user: id,
+      },
+      {
+        headers: {
+          token: accesstoken,
+        },
+      }
+    )  
   };
+
 
   const addComment = async() => {
     const comment = {
@@ -136,7 +139,7 @@ function FriendProfilePost({posts}) {
                 className="LikeAndComment"
                 alt=""
               />
-              <p style={{ marginLeft: "10px" }}> {posts?.like?.length} likes</p>
+              <p style={{ marginLeft: "10px" }}> {Count} likes</p>
             </div>
             <div
               style={{

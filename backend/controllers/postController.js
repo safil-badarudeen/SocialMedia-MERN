@@ -95,8 +95,9 @@ const followingPost = async (req, res) => {
 
 const like = async (req, res) => {
   const post = await Post.findById(req.params.id);
-  if (!post.like.includes(req.body.user)) {
-    await post.updateOne({ $push: { like: req.body.user } });
+  console.log(post)
+  if (!post?.like.includes(req.body.user)) {
+    await post?.updateOne({ $push: { like: req.body.user } });
     return res.status(200).json("post has been liked ");
   } else {
     await post.updateOne({ $pull: { like: req.body.user } });

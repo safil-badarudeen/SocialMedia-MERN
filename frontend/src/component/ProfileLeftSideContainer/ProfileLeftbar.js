@@ -125,7 +125,7 @@ function ProfileLeftbar() {
         </div>
         <div style={{ display: "flex", flexWrap: "wrap" }}>
           {followinguser.map((data) => (
-            <Link to={`/profile/${data._id}`}>
+            <Link to={`/profile/userprofile/${data._id}`}>
               <div style={{ cursor: "pointer" }} key={data._id}>
                 <img src={data.profile} className="FriendProfilePic" alt="" />
                 <p className="FriendsName">{data.username}</p>

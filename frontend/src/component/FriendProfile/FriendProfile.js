@@ -16,7 +16,7 @@ function FriendProfile() {
         const getUser = async () => {
           try {
             const response = await axios.get(
-              `http://localhost:5000/api/user/userdetails/63bbd90a35fae65e3e37b9f4`
+              `http://localhost:5000/api/user/userdetails/${userId}`
             );
             SetUser(response.data);
           } catch (error) {
@@ -32,7 +32,7 @@ function FriendProfile() {
     <div>
       <div className="FriendProfileMainContainer">
         <div className="FriendProfileDetailContainer">
-          <img src={profileimage} className="FriendProfileImage" alt="" />
+          <img src={user.profile} className="FriendProfileImage" alt="" />
           <p className="FriendProfileName"> {user?.username}</p>
         </div>
 

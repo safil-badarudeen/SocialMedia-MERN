@@ -1,17 +1,26 @@
 import React, { useEffect, useState } from "react";
 import profilePicture from "../images/profilePic.jpg";
 import commentIcon from "../images/commentIcon.png";
-import heartIcon from "../images/heartIcon.png";
-import anotherHeart from "../images/anotherHeart.png";
-import shareIcon from "../images/shareIcon.png";
+import blackHeart from "../images/heartIcon.png";
+import redHeart from "../images/anotherHeart.png";
+
 import "./profilepost.css";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 
 export function ProfilePost({ posts }) {
-  const accesstoken =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYmJkOTBhMzVmYWU2NWUzZTM3YjlmNCIsInVzZXJuYW1lIjoic2FmaWwiLCJpYXQiOjE2NzMyNTUzNTV9.JSi3ffNctkFjAaPipjNgUfAimAlZ2Pg-E_Ccrg53eKA";
-    const userId = "63bbd96535fae65e3e37b9f8";
+
+  const userDetails = useSelector((state) => state.user);
+  const loggedInUser = userDetails?.user;
+  const username = loggedInUser?.other?.username;
+  const userId = loggedInUser?.other?._id
+ 
+  const following = loggedInUser?.other?.following;
+  const followers = loggedInUser?.other?.followers;
+
+ const accesstoken = loggedInUser.accessToken;
+  
     useEffect(() => {
     const getUser = async () => {
       try {
@@ -33,9 +42,9 @@ export function ProfilePost({ posts }) {
   }, [posts.user]);
 
   const [Like, setLike] = useState(
-    [posts.like.includes(userId) ? anotherHeart : heartIcon]
+    [posts.like.includes(userId) ? redHeart : blackHeart]
   );
-  const [Count, setCount] = useState();
+  const [Count, setCount] = useState(posts?.like?.length);
   const [Comments, setComments] = useState([]);
   const [CommentWriting, setCommentWriting] = useState("");
   const [CommentCount, setCommentCount] = useState();
@@ -43,21 +52,22 @@ export function ProfilePost({ posts }) {
   const [user, setUser] = useState([]);
    
   const handleLike = async () => {
-    await fetch(`http://localhost:5000/api/post/${posts._id}/like`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/Json", token: accesstoken },
-    });
-    if (Like === heartIcon) {
-      setLike(anotherHeart);
-      setCount(Count + 1);
-    } else {
-      await fetch(`http://localhost:5000/api/post/${posts._id}/like`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/Json", token: accesstoken },
-    });
-      setLike(heartIcon);
-      setCount(Count - 1);
-    }
+       
+    Like === blackHeart ? setLike(redHeart) : setLike(blackHeart);
+    Like === blackHeart ? setCount(Count + 1) : setCount(Count - 1);
+   
+    //like will toggle in backend
+    await axios.put(
+      `http://localhost:5000/api/post/${posts._id}/like`,
+      {
+        user: userId,
+      },
+      {
+        headers: {
+          token: accesstoken,
+        },
+      }
+    )  
   };
 
   const addComment = () => {
@@ -137,7 +147,7 @@ export function ProfilePost({ posts }) {
                 className="LikeAndComment"
                 alt=""
               />
-              <p style={{ marginLeft: "10px" }}> {posts.like.length} likes</p>
+              <p style={{ marginLeft: "10px" }}> {Count} likes</p>
             </div>
             <div
               style={{
@@ -155,17 +165,7 @@ export function ProfilePost({ posts }) {
               <p style={{ marginLeft: "10px" }}>{posts.comments.length} comments</p>
             </div>
           </div>
-          <div
-            style={{
-              display: "flex",
-              marginLeft: "150px",
-              alignItems: "center",
-              cursor: "pointer",
-            }}
-          >
-            <img src={`${shareIcon}`} className="LikeAndComment" alt="" />
-            <p style={{ marginLeft: "10px" }}>share</p>
-          </div>
+          
         </div>
 
         {ShowComment === true ? (
@@ -211,17 +211,7 @@ export function ProfilePost({ posts }) {
                     >
                       {items.title}
                     </p>
-                    <p
-                      style={{
-                        marginLeft: 10,
-                        textAlign: "left",
-                        fontSize: 11,
-                        color: "#aaa",
-                        marginTop: -11,
-                      }}
-                    >
-                      Reply
-                    </p>
+                    
                   </div>
                 </div>
               );

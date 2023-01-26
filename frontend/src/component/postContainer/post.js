@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import profilePicture from "../images/profilePic.jpg";
 import commentIcon from "../images/commentIcon.png";
-import heartIcon from "../images/heartIcon.png";
-import anotherHeart from "../images/anotherHeart.png";
-import shareIcon from "../images/shareIcon.png";
+import blackHeart from "../images/heartIcon.png";
+import redHeart from "../images/anotherHeart.png";
 import "./post.css";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import {Link} from 'react-router-dom'
+import { Link } from "react-router-dom";
 
 function Post({ post }) {
+  console.log(post?.like?.length);
   // user logged in from global state
   const userDetails = useSelector((state) => state.user);
   const loggedInUser = userDetails.user;
@@ -37,62 +37,64 @@ function Post({ post }) {
     getUser();
   }, [post.user]);
 
-  
-
-  const [Like, setLike] = useState([
-    post.like.includes(userId) ? anotherHeart : heartIcon,
-  ]);
-  const [Count, setCount] = useState(post.like.length);
-  const [Comments, setComments] = useState(post.comments);
+  const [Like, setLike] = useState(
+    post.like.includes(userId) ? redHeart : blackHeart,
+  );
+  const [Count, setCount] = useState(post?.like?.length);
+  const [Comments, setComments] = useState(post?.comments);
   const [CommentWriting, setCommentWriting] = useState("");
-  const [CommentCount, setCommentCount] = useState(post.comments.length);
+  const [CommentCount, setCommentCount] = useState(post?.comments?.length);
   const [ShowComment, setShowComment] = useState(false);
   const [user, setUser] = useState([]);
-
   
+
   const handleLike = async () => {
-    await fetch(`http://localhost:5000/api/post/${post._id}/like`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/Json", token: accesstoken },
-    });
-    if (Like === heartIcon) {
-      setLike(anotherHeart);
-      setCount(Count + 1);
-    } else {
-      await fetch(`http://localhost:5000/api/post/${post._id}/like`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/Json", token: accesstoken },
-      });
-      setLike(heartIcon);
-      setCount(Count - 1);
-    }
+       
+    Like === blackHeart ? setLike(redHeart) : setLike(blackHeart);
+    Like === blackHeart ? setCount(Count + 1) : setCount(Count - 1);
+
+    await axios.put(
+      `http://localhost:5000/api/post/${post._id}/like`,
+      {
+        user: userId,
+      },
+      {
+        headers: {
+          token: accesstoken,
+        },
+      }
+    )  
+
+   
   };
 
   const addComment = async () => {
     const comment = {
       userId: `${loggedInUser.other._id}`,
       username: `${loggedInUser.other.username}`,
-      profile: `${loggedInUser.other.profile}` ,
+      profile: `${loggedInUser.other.profile}`,
       title: `${CommentWriting}`,
     };
 
-    await axios.put('http://localhost:5000/api/post/user/comment',{
+    await axios.put(
+      "http://localhost:5000/api/post/user/comment",
+      {
         postId: post._id,
-        comment: CommentWriting
-    },{
-        headers:{
-            token: accesstoken,
-          },
-    })
+        comment: CommentWriting,
+      },
+      {
+        headers: {
+          token: accesstoken,
+        },
+      }
+    );
     setComments(Comments.concat(comment));
-    setCommentWriting("")
+    setCommentWriting("");
   };
 
   const handleComment = () => {
     addComment();
   };
-
-  
 
   return (
     <div className="PostContainer">
@@ -104,26 +106,26 @@ function Post({ post }) {
             alt=""
           ></img>
           <div>
-          <Link to={`/profile/userprofile/${user?._id}`}>
-            <p
-              style={{
-                marginLeft: "15px",
-                fontWeight: "bold",
-                textAlign: "start",
-              }}
-            >
-              {user.username}
-            </p>
+            <Link to={`/profile/userprofile/${user?._id}`}>
+              <p
+                style={{
+                  marginLeft: "15px",
+                  fontWeight: "bold",
+                  textAlign: "start",
+                }}
+              >
+                {user.username}
+              </p>
             </Link>
           </div>
         </div>
         <p className="postTitle">{post.title}</p>
-        
+
         {/* diplay image and video alternatively*/}
         {post.image !== "" ? (
           <img src={`${post.image}`} className="PostImage" alt="" />
         ) : post.video !== "" ? (
-          <video  className="PostImage" width="500" height="500" controls>
+          <video className="PostImage" width="500" height="500" controls>
             <source src={`${post.video}`} type="video/mp4" />
           </video>
         ) : (
@@ -146,14 +148,13 @@ function Post({ post }) {
             <div className="commentIconDiv">
               <img
                 src={`${commentIcon}`}
-                onClick={()=>setShowComment(!ShowComment)}
+                onClick={() => setShowComment(!ShowComment)}
                 className="LikeAndComment"
                 alt=""
               />
               <p style={{ marginLeft: "10px" }}>{Comments.length} comments</p>
             </div>
           </div>
-         
         </div>
 
         {ShowComment === true ? (
@@ -199,7 +200,6 @@ function Post({ post }) {
                     >
                       {items.comment}
                     </p>
-                   
                   </div>
                 </div>
               );
