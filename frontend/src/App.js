@@ -5,6 +5,7 @@ import Signup from "./pages/Signup/Signup";
 import Login from "./pages/Login/Login";
 import Verifyemail from "./pages/verifyEmail/verifyEmail";
 import Chat from './pages/Chat/Chat'
+import UserProfile from "./pages/UserProfile/UserProfile"
 
 import { BrowserRouter, Routes, Route ,Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -22,6 +23,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/verify/email" element={<Verifyemail />} />
           <Route path="/chat" element={<Chat />} />
+          <Route path ="/profile/userprofile/:userId" element={<UserProfile />} />
         </Routes>
       </BrowserRouter>
     </div>   //user !== null ? <Navigate to={"/"}/> : 

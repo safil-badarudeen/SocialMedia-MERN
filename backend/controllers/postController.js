@@ -120,12 +120,13 @@ const like = async (req, res) => {
 const comment = async (req,res)=>{
   const { postId, comment} = req.body
   const comments = {
-    user : req.user.id,
+    userId : req.user.id,
     username:req.user.username,
     comment,
   }
   const post = await Post.findById(postId)
-  post.comments.push(comments),
+   
+  post?.comments.push(comments),
   await post.save();
   res.status(200).json(post)
 }

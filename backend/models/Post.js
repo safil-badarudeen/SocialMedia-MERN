@@ -30,7 +30,7 @@ const Postschema = new mongoose.Schema({
     },
     comments:[
         {
-            user:{
+            userId:{
                 type:mongoose.Schema.ObjectId,
                 required:true,
             },

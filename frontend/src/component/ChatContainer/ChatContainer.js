@@ -85,7 +85,7 @@ function ChatContainer({ currentChatUser }) {
   useEffect(()=>{
     if(socket.current ){
    socket.current.on("msg-receive",(msg)=>{
-    console.log(msg);
+    // console.log(msg);
     setArrivalMessage({myself:false , message:msg})
    },[arrivalMessage])
     }

@@ -58,7 +58,6 @@ io.on("connection", (socket) => {
   socket.on("addUser", (id) => {
     onlineUsers.set(id, socket.id);
   });
-
   socket.on("send-msg", (data) => {
     const sendUserSocket = onlineUsers.get(data.to);
     if (sendUserSocket) {

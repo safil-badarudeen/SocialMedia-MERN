@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import addFrnd from "../images/addFriend.png";
 import addedFriend from "../images/addedFriendpng.png";
+import {Link} from 'react-router-dom'
 
 import "./rightBar.css";
 import { useSelector } from "react-redux";
 
 function Follow({ userdetails }) {
+  
   
   const userDetails = useSelector((state) => state.user);
   const user = userDetails.user;
@@ -42,20 +44,11 @@ function Follow({ userdetails }) {
     >
       <div style={{ display: "flex", alignItems: "center" }}>
         <img src={userdetails.profile} className="ProfileImage" alt="" />
+        <Link to={`/profile/userprofile/${userdetails._id}`}>
         <div>
-          <p style={{ marginLeft: "20px" }}>{userdetails.username}</p>
-          <p
-            style={{
-              marginLeft: "20px",
-              textAlign: "start",
-              marginTop: "-17px",
-              fontSize: "13px",
-              color: "#aaa",
-            }}
-          >
-            follows you
-          </p>
+          <p style={{ marginLeft: "20px" }}>{userdetails?.username}</p>
         </div>
+        </Link>
       </div>
       <div
         style={{
