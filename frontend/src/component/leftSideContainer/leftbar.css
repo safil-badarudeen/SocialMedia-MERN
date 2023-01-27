@@ -2,9 +2,12 @@
     flex:1;
     /* margin-left:50px; */
     /* position:fixed; */
+    position:relative;
+    
 }
 
 .NotificationContainer{
+    position:fixed;
     width:18pc;
     height:60vh;
     background-color: white;
