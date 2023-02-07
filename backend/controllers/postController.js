@@ -5,9 +5,9 @@ const User = require("../models/User");
 
 const createPost = async (req, res) => {
   let { title, image, video } = req.body;
-    if (!title){
-      title = ''
-    }
+  if (!title) {
+    title = "";
+  }
   let newPost = await Post.create({
     title,
     image,
@@ -19,7 +19,6 @@ const createPost = async (req, res) => {
   res.status(200).json({ newPost, totalPost: newPost.length });
 };
 
-
 //getyouruploaded post
 //////////
 
@@ -27,25 +26,31 @@ const getMyPost = async (req, res) => {
   const { id } = req.params;
 
   const mypost = await Post.find({ user: id });
-
+  console.log(typeof mypost);
   if (!mypost) {
     return res.status(400).json({ msg: "You dont have any post" });
   }
-  
 
   res.status(200).json(mypost);
 };
 
-const getOnePost= async(req,res)=>{
-  const {id} = req.params
-  const post = await Post.findOne({_id:id})
-  if(!post){
-    return res.status(404).json({msg:"post with id not found"})
-
+const getOnePost = async (req, res) => {
+  const { id } = req.params;
+  const post = await Post.find({ _id: id }).populate("user");
+  if (!post) {
+    return res.status(404).json({ msg: "post with id not found" });
   }
 
-  res.status(200).json(post)
-}
+  post[0].user.password = undefined;
+
+  res.status(200).json(post);
+};
+//  const userId = post.user
+//  console.log(userId)
+
+// const user = await User.findOne({_id:userId})
+
+// const {email,password,following,followers,mobilenumber,...other}=user._doc
 
 ////////////////////////
 //update post
@@ -99,16 +104,15 @@ const followingPost = async (req, res) => {
       return Post.find({ user: item });
     })
   );
-  const userPost = await Post.find({user: user._id})
+  const userPost = await Post.find({ user: user._id });
   res.status(200).json(userPost.concat(...posts));
-  
 };
 
 //like
 
 const like = async (req, res) => {
   const post = await Post.findById(req.params.id);
-  console.log(post)
+  console.log(post);
   if (!post?.like.includes(req.body.user)) {
     await post?.updateOne({ $push: { like: req.body.user } });
     return res.status(200).json("post has been liked ");
@@ -131,35 +135,31 @@ const like = async (req, res) => {
 //   }
 // };
 
-const comment = async (req,res)=>{
-  const { postId, comment} = req.body
+const comment = async (req, res) => {
+  const { postId, comment } = req.body;
   const comments = {
-    userId : req.user.id,
-    username:req.user.username,
+    userId: req.user.id,
+    username: req.user.username,
     comment,
-  }
-  const post = await Post.findById(postId)
-   
-  post?.comments.push(comments),
-  await post.save();
-  res.status(200).json(post)
-}
+  };
+  const post = await Post.findById(postId);
 
-const deletePost = async (req,res) =>{
+  post?.comments.push(comments), await post.save();
+  res.status(200).json(post);
+};
 
-  const post = await Post.findOne({_id:req.params.id})
- 
-  if(post.user == req.user.id){
-    
-     await post.remove()
+const deletePost = async (req, res) => {
+  const post = await Post.findOne({ _id: req.params.id });
+
+  if (post.user == req.user.id) {
+    await post.remove();
     // const deletePost = await Post.findByIdAndDelete(req.params.id)
     //    await deletePost.save()
-     return res.status(200).json("post has deleted successfully")
-  }else{
-    return res.status(400).json("you dont have access to delete this post")
+    return res.status(200).json("post has deleted successfully");
+  } else {
+    return res.status(400).json("you dont have access to delete this post");
   }
- 
-}
+};
 
 module.exports = {
   createPost,
@@ -169,6 +169,7 @@ module.exports = {
   followingPost,
   like,
   // dislike,
-  comment,deletePost
-  ,getOnePost
+  comment,
+  deletePost,
+  getOnePost,
 };
