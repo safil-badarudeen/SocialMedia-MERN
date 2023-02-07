@@ -36,6 +36,17 @@ const getMyPost = async (req, res) => {
   res.status(200).json(mypost);
 };
 
+const getOnePost= async(req,res)=>{
+  const {id} = req.params
+  const post = await Post.findOne({_id:id})
+  if(!post){
+    return res.status(404).json({msg:"post with id not found"})
+
+  }
+
+  res.status(200).json(post)
+}
+
 ////////////////////////
 //update post
 ////////
@@ -69,10 +80,12 @@ const following = async (req, res) => {
       await otherUser.updateOne({ $push: { following: id } });
       return res.status(200).json("you started following");
     } else {
-      return res.status(400).json("you already follow the user");
+      await user.updateOne({ $pull: { followers: req.body.user } });
+      await otherUser.updateOne({ $pull: { following: id } });
+      return res.status(200).json("you unfollowed  the user");
     }
   } else {
-    res.status(400).json("you cannot follow yourself");
+    res.status(500).json("you cannot follow yourself");
   }
 };
 
@@ -157,4 +170,5 @@ module.exports = {
   like,
   // dislike,
   comment,deletePost
+  ,getOnePost
 };

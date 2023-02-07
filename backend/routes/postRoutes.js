@@ -7,6 +7,7 @@ const {
   following,
   followingPost,
   like,
+  getOnePost,
   // dislike,
   comment,
   deletePost
@@ -26,6 +27,8 @@ router .put ('/user/comment',verifyToken, comment)
 router.put("/user/updatePost/:id", verifyToken, updatePost);
 
 router.put("/user/following/:id", verifyToken, following);
+
+router.get("/user/getOnePost/:id",getOnePost)
 
 //delete Post 
 
