@@ -1,0 +1,88 @@
+the step addition should have 1 screen - that is home screen given above 
+- on the hoem screen  a user puts two numbers to add . he then click on generate steps.
+- The click on button would trigger an Api call using axios  in api call user would pass two numbers to add 
+This Api is supposed to give JSON object of step by stip addition process
+- show the Json object  received from API in the output area shown above 
+- documentation 
+
+
+
+
+The step generation process
+- When we do additon in a note book we are only concerned about carry and sum .
+- suppose twe want to add 1489 and 714 
+- The first step is to add digits at unit places. That is add "9" from 1489 and 4 from 714
+- The ! which goes to carry is at tens pllace we are appending underscore for unit place , So carryString is "1_"
+- Hence in step in step --1 we have carryString = "1_" and sumString = "3".
+- Now its turn to add digits at tens place . That is "1" from carry of previous tep , "8" from 1489 and "1" from 714.
+-The sum is "10" (1+8+1) , but "1" would go as carry . so sumString updates to "03" and carryString updates to  "11_"
+-There for in step -2 , carryString = "11_ " and  sumstring="03"
+
+for example if input from front end body is NumberOne : 1489 and NumberTwo : 714  the resposne from backend should be like this 
+
+ {"step1":{"carryString":"1_","sumString:"3"},
+  "step2":{"carryString":"11_","sumString:"03"},
+  "step3":{"carryString":"111_","sumString:"203"},
+  "step4":{"carryString":"111_","sumString:"2203"}
+ }
+
+
+
+
+ const express = require("express");
+const app = express();
+const bodyParser = require("body-parser");
+
+app.use(bodyParser.json());
+
+app.post("/addition", (req, res) => {
+  const numberOne = req.body.NumberOne;
+  const numberTwo = req.body.NumberTwo;
+  let carryString = "";
+  let sumString = "";
+  let carry = 0;
+
+  numberOne = numberOne.toString().split("").reverse().join("");
+  numberTwo = numberTwo.toString().split("").reverse().join("");
+
+  let result = {};
+  let step = 1;
+  for (let i = 0; i < numberOne.length || i < numberTwo.length; i++) {
+    let a = parseInt(numberOne[i] || 0);
+    let b = parseInt(numberTwo[i] || 0);
+    let sum = a + b + carry;
+
+    if (sum >= 10) {
+      carry = 1;
+      carryString = "1" + carryString;
+      sum = sum - 10;
+    } else {
+      carry = 0;
+      carryString = "_" + carryString;
+    }
+
+    sumString = sum.toString() + sumString;
+    result[`step${step}`] = {
+      carryString: carryString,
+      sumString: sumString,
+    };
+    step++;
+  }
+
+  if (carry) {
+    carryString = "1" + carryString;
+    sumString = "1" + sumString;
+  }
+
+  result[`step${step}`] = {
+    carryString: carryString,
+    sumString: sumString,
+  };
+
+  res.send(result);
+});
+
+const port = process.env.PORT || 5000;
+app.listen(port, () => console.log(`Listening on port ${port}`));
+
+

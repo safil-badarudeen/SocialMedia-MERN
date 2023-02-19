@@ -30,19 +30,17 @@ const getMyPost = async (req, res) => {
   if (!mypost) {
     return res.status(400).json({ msg: "You dont have any post" });
   }
-
+ console.log(typeof mypost)
   res.status(200).json(mypost);
 };
 
 const getOnePost = async (req, res) => {
   const { id } = req.params;
-  const post = await Post.find({ _id: id }).populate("user");
+  const post = await Post.findById({ _id: id }).populate("user");
   if (!post) {
     return res.status(404).json({ msg: "post with id not found" });
   }
-
-  post[0].user.password = undefined;
-
+  console.log(typeof post.comments)
   res.status(200).json(post);
 };
 //  const userId = post.user

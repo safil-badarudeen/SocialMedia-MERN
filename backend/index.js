@@ -17,7 +17,7 @@ const userRouter = require("./routes/userRoutes");
 const accountRouter = require("./routes/accountRoutes");
 const messageRouter = require("./routes/messageRoutes");
 
-app.use(cors());
+
 app.use(express.json());
 
 app.use("/api/auth", authRouter);
